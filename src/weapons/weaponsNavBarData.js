@@ -1,0 +1,32 @@
+export const weaponsSideBarData = [
+    {
+        title:"Cold",
+        icon:"",
+        toUrl:"",
+    },
+    {
+        title:"Heavy",
+        icon:"",
+        toUrl:"",
+    },
+    {
+        title:"Light",
+        icon:"",
+        toUrl:"",
+    },
+    {
+        title:"Pistol",
+        icon:"",
+        toUrl:"",
+    },
+    {
+        title:"Shotgun",
+        icon:"",
+        toUrl:"",
+    },
+    {
+        title:"Sniper",
+        icon:"",
+        toUrl:"",
+    },
+]

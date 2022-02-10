@@ -1,0 +1,10 @@
+import abi from './TsxABI.json'
+
+export const contractABI = abi.abi;
+export const contractAddressABI = '0x2d847717feDD42942676Fa4A7F055024b00FC539'
+export const gunStoreAddress = '0x4aF7c85FC637aFD8E6e17903e165667343136ce7'
+
+//0xA9d32944dEa3C83F71deDA43A74bC120ddD213F5
+//0x676f7d285a88E9025Bd3430Ac4a31B35434F6842
+
+//0x2d847717feDD42942676Fa4A7F055024b00FC539 last one 7.2
