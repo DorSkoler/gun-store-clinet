@@ -3,8 +3,8 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { contractABI, contractAddressABI, gunStoreAddress } from "../utils_contract/details";
 import trainingPrices from '../weapons/trainingPrices'
-// const addressRoute = "http://gun-store-blockchain.herokuapp.com/weapons"
-const addressRoute = "http://localhost:4000/weapons"
+const addressRoute = "http://gun-store-blockchain.herokuapp.com/weapons"
+// const addressRoute = "http://localhost:4000/weapons"
 
 export const TransactionContext = React.createContext();
 
