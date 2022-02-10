@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { TransactionContext } from "../context/TransactionContext";
-import { TransactionCard } from './TransactionCard'
+import { TransactionCard } from '../components/TransactionCard'
 
 const Transactions = () => {
   const { currentAccount, accountTransactions } = useContext(TransactionContext);

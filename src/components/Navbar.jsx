@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import logo from '/images/logo.png';
-// import gun from '../images/Guns/Light/CZ-Scorpion-removebg-preview.png'
 import {TransactionContext} from "../context/TransactionContext"
 import { Link } from 'react-router-dom';
 
@@ -14,7 +13,7 @@ const Navbar = () => {
   return (
     <nav className="w-full flex md:justify-center justify-between items-center p-4">
       <div className="md:flex-[0.5] flex-initial justify-center items-center">
-        <Link to ="/home">
+        <Link to ="/">
         <img src={logo} alt="logo" className="w-41 h-15 cursor-pointer" />
         </Link>
       </div>

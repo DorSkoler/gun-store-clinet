@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import axios from "axios";
-
-// dor address: 0xC77eBb0057E5534efeDBb46360D92CbDA2807B68
-// shahaf address: 0x43A0726774FCbece727A78C818fF7be9D89a8ADb
-// gunstore address: 0x4aF7c85FC637aFD8E6e17903e165667343136ce7
 import { contractABI, contractAddressABI, gunStoreAddress } from "../utils_contract/details";
-
-
+import trainingPrices from '../weapons/trainingPrices'
 
 export const TransactionContext = React.createContext();
 
@@ -117,6 +112,15 @@ export const TransactionProvider = ({ children }) => {
     }));
   };
 
+  const handleTrainingPrice = async(weapon)=>{
+      try {
+        console.log(trainingPrices[weapon.weapon_type][weapon.training_index]);
+        const newPrice = weapon.weapon_price + trainingPrices[weapon.weapon_type][weapon.training_index]
+        await axios.post('https://gun-store-blockchain.herokuapp.com/weapons/updatePrice',{_id:weapon._id,weapon_price:newPrice})
+      } catch (error) {
+        
+      }
+  }
   const handleNewTransaction = async (userWeapon) => {
     try {
       if (!ethereum) return alert("Please connect to MetaMask.");
@@ -154,8 +158,7 @@ export const TransactionProvider = ({ children }) => {
           weapon_url: userWeapon.url,
           account_metamask_address: currentAccount
         }
-        axios.post('https://gun-store-blockchain.herokuapp.com/weapons/add', weaponToAdd)
-          .then(res => console.log(res.data))
+        await axios.post('https://gun-store-blockchain.herokuapp.com/weapons/add', weaponToAdd)
       }
     } catch (error) {
       console.log(error);
@@ -184,6 +187,8 @@ export const TransactionProvider = ({ children }) => {
         userInputData,
         accountTransactions,
         accountWeapons,
+        handleTrainingPrice,
+        getAccountWeapons,
         handleChange,
         handleNewTransaction,
       }}

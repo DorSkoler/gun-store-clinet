@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { TransactionContext } from "../context/TransactionContext";
 import {FaEthereum} from 'react-icons/fa';
-
+import {Button} from './Button'
 export const WeaponCardStore = ({price,weapon,url,type}) => {
 
   const {handleNewTransaction} = useContext(TransactionContext)
@@ -36,18 +36,19 @@ export const WeaponCardStore = ({price,weapon,url,type}) => {
               <p className="text-white text-base">Name: {weapon}</p>
             </>
           )}
-          <p className="text-white text-base">Price: {price} ETH</p>
+          <div className="text-white flex flex-row">
+          <p className="text-white text-base">Price: {price} ETH </p>
+            <FaEthereum className="mt-1"/>
+          </div>
+          {/* <p className="text-white text-base">Price: {price} ETH </p> */}
         </div>
         <img
           
           src={url}
           alt={"weapon"}
-          className="w-25 h-50 2xl:h-96 rounded-md shadow-lg"
+          className="w-25 h-50 2xl:h-96 mb-2 rounded-md shadow-lg"
         />
-        <div className="flex cursor-pointer bg-black p-3 px-5 w-max rounded-3xl -mt-5 shadow-2xl" onClick={()=>handleBuy()}>
-          <p className="text-left text-[#37c7da] font-bold">{price}<FaEthereum/></p>
-
-        </div>
+        <Button text={"Buy"}/>
       </div>
     </div>
   );

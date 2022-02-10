@@ -1,10 +1,41 @@
-import React from "react";
-import {FaEthereum} from 'react-icons/fa';
+import React, { useContext } from "react";
+import { FaEthereum } from "react-icons/fa";
+import { Button } from "./Button";
+import { TransactionContext } from "../context/TransactionContext";
 
-export const WeaponCard = ({price,weapon,url,type,training}) => {
+const dictTraining = {
+  shooting_range: "Shooting Range",
+  basic_training: "Basic Training",
+  advanced_training:"Advanced Training"
+}
+
+export const WeaponCard = ({ id,price, weapon, url, type, training }) => {
+
+  const {currentAccount,handleTrainingPrice} = useContext(TransactionContext)
+
+  const handleTraining = (index,training) => {
+    const weaponAfterTraining = {
+      _id:id,
+      weapon_name: weapon,
+      weapon_type: type,
+      weapon_price: price,
+      weapon_url: url,
+      weapon_training:training,
+      training_index:index,
+      account_metamask_address: currentAccount
+    }
+    console.log(weaponAfterTraining);
+    handleTrainingPrice(weaponAfterTraining);
+
+  };
+
+  const handleSend = () => {
+    console.log("test send");
+  };
 
   return (
-    <div className="blue-glassmorphism m-4 flex flex-1
+    <div
+      className="blue-glassmorphism m-4 flex flex-1
       2xl:min-w-[450px]
       2xl:max-w-[500px]
       sm:min-w-[270px]
@@ -12,24 +43,30 @@ export const WeaponCard = ({price,weapon,url,type,training}) => {
       min-w-full
       flex-col p-3 rounded-md hover:shadow-2xl"
     >
-      <div className="flex flex-col items-center w-full mt-1">
-        <div className="display-flex justify-start w-full mb-2 p-2">
-
-          <p className="text-white text-base">Name: {weapon}</p>
-          <p className="text-white text-base">Type: {type}</p>
+      <div className="flex flex-col items-center w-full mt-3">
+        <div className="display-flex justify-start w-full mb-2 p-2 text-white text-[16px]">
+          <p>Type: {type}</p>
+          <p>Name: {weapon}</p>
+          <div className="flex flex-row">
+            <p>Price: {price} ETH </p>
+            <FaEthereum className="mt-1" />
+          </div>
+          <p>Training:</p>
+        </div>
+        <div className="flex flex-col w-full text-[13px]">
+          {Object.keys(dictTraining).map(
+            (item, index) => (
+                <Button key={index} index={item} text={dictTraining[item]} onClick={handleTraining} />
+            )
+          )}
         </div>
         <img
-          
           src={url}
           alt={"weapon"}
-          className="w-25 h-50 2xl:h-96 rounded-md shadow-lg"
+          className="w-25 h-50 2xl:h-96 mb-2 rounded-md shadow-lg"
         />
-        <div className="flex cursor-pointer bg-black p-3 px-5 w-max rounded-3xl -mt-5 shadow-2xl" onClick={()=>handleBuy()}>
-          <p className="text-left text-[#37c7da] font-bold">{price}<FaEthereum/></p>
-
-        </div>
+        <Button text={"Send"} onClick={handleSend} />
       </div>
     </div>
   );
 };
-

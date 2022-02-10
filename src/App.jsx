@@ -11,7 +11,7 @@ const App = () => (
       </div>
       <div className="gradient-bg-welcome">
         <Routes>
-        <Route path="/home" element={<Home/>}/>
+        <Route path="/" element={<Home/>}/>
         <Route path="/transactions" element={<Transactions/>}/>
         <Route path="/store" element={<Store/>}/>
         <Route path="/weapons" element={<Weapons/>}/>
