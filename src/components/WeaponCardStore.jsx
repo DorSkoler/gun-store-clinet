@@ -48,7 +48,7 @@ export const WeaponCardStore = ({price,weapon,url,type}) => {
           alt={"weapon"}
           className="w-25 h-50 2xl:h-96 mb-2 rounded-md shadow-lg"
         />
-        <Button text={"Buy"}/>
+        <Button text={"Buy"} onClick={handleBuy}/>
       </div>
     </div>
   );

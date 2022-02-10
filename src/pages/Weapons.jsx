@@ -42,7 +42,7 @@ function Weapons() {
           price={weapon.weapon_price}
           url={weapon.weapon_url}
           type={weapon.weapon_type}
-          training={weapon.weapon_traning}
+          training={weapon.weapon_training}
           />
         ))}
       </div>

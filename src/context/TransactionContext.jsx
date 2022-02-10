@@ -3,6 +3,8 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { contractABI, contractAddressABI, gunStoreAddress } from "../utils_contract/details";
 import trainingPrices from '../weapons/trainingPrices'
+// const addressRoute = "http://gun-store-blockchain.herokuapp.com/weapons"
+const addressRoute = "http://localhost:4000/weapons"
 
 export const TransactionContext = React.createContext();
 
@@ -114,9 +116,9 @@ export const TransactionProvider = ({ children }) => {
 
   const handleTrainingPrice = async(weapon)=>{
       try {
-        console.log(trainingPrices[weapon.weapon_type][weapon.training_index]);
-        const newPrice = weapon.weapon_price + trainingPrices[weapon.weapon_type][weapon.training_index]
-        await axios.post('https://gun-store-blockchain.herokuapp.com/weapons/updatePrice',{_id:weapon._id,weapon_price:newPrice})
+        let newPrice = Number(weapon.weapon_price) + Number(trainingPrices[weapon.weapon_type][weapon.training_index])
+        newPrice = newPrice.toFixed(5)
+        await axios.post(`${addressRoute}/updatePrice`,{_id:weapon._id,weapon_price:newPrice,weapon_training:weapon.weapon_training,training_index:weapon.training_index})
       } catch (error) {
         
       }
@@ -158,7 +160,7 @@ export const TransactionProvider = ({ children }) => {
           weapon_url: userWeapon.url,
           account_metamask_address: currentAccount
         }
-        await axios.post('https://gun-store-blockchain.herokuapp.com/weapons/add', weaponToAdd)
+        await axios.post(`${addressRoute}/add`, weaponToAdd)
       }
     } catch (error) {
       console.log(error);
@@ -167,7 +169,7 @@ export const TransactionProvider = ({ children }) => {
   };
   const getAccountWeapons = async()=>{
     try {
-      const res = await axios.post('https://gun-store-blockchain.herokuapp.com/weapons/byMetamask', {account_metamask_address:currentAccount})
+      const res = await axios.post(`${addressRoute}/byMetamask`, {account_metamask_address:currentAccount})
       setAccountWeapons(res.data)
     } catch (error) {
       console.log(error);

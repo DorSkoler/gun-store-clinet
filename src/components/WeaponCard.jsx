@@ -13,14 +13,14 @@ export const WeaponCard = ({ id,price, weapon, url, type, training }) => {
 
   const {currentAccount,handleTrainingPrice} = useContext(TransactionContext)
 
-  const handleTraining = (index,training) => {
+  const handleTraining = (index,training,trainingObject) => {
     const weaponAfterTraining = {
       _id:id,
       weapon_name: weapon,
       weapon_type: type,
       weapon_price: price,
       weapon_url: url,
-      weapon_training:training,
+      weapon_training:trainingObject,
       training_index:index,
       account_metamask_address: currentAccount
     }
@@ -56,7 +56,7 @@ export const WeaponCard = ({ id,price, weapon, url, type, training }) => {
         <div className="flex flex-col w-full text-[13px]">
           {Object.keys(dictTraining).map(
             (item, index) => (
-                <Button key={index} index={item} text={dictTraining[item]} onClick={handleTraining} />
+                <Button key={index} index={item} text={dictTraining[item]} trainingObject={training} onClick={handleTraining} />
             )
           )}
         </div>
