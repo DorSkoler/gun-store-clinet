@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import logo from '/images/logo.png';
+import logo from '../../public/images/logo.png';
 // import gun from '../images/Guns/Light/CZ-Scorpion-removebg-preview.png'
 import {TransactionContext} from "../context/TransactionContext"
 import { Link } from 'react-router-dom';
