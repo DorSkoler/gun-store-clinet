@@ -177,7 +177,7 @@ export const TransactionProvider = ({ children }) => {
           weapon_type: userWeapon.type,
           weapon_price: userWeapon.price,
           weapon_url: userWeapon.url,
-          timestamp:Date.Now(),
+          timestamp:Date.now(),
           account_metamask_address: currentAccount
         }
         await axios.post(`${addressRoute}/add`, weaponToAdd)
