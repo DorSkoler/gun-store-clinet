@@ -104,7 +104,7 @@ export const TransactionProvider = ({ children }) => {
     }
   };
 
-  // handle user input for new transaction, on every change this function will change the state of the new data
+  // handle  user input for new transaction, on every change this function will change the state of the new data
   //for the new transaction and change it with the right inputType, for example, 'addressTo' changed from '0x3' to '0x5'
   const handleChange = (e, inputType) => {
     console.log(inputType);
