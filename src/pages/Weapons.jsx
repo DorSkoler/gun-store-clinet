@@ -4,7 +4,7 @@ import { TransactionContext } from "../context/TransactionContext";
 import { WeaponCard } from "../components/WeaponCard";
 function Weapons() {
   const [selectedWeaponType, setSelectedWeaponType] = useState("Cold");
-  const { accountWeapons,getAccountWeapons } = useContext(TransactionContext);
+  const { accountWeapons,getAccountWeapons,handleWeaponIdleTime } = useContext(TransactionContext);
   const handleSelectedWeaponType = (weapon) => {
     setSelectedWeaponType(weapon);
   };
@@ -13,7 +13,6 @@ function Weapons() {
   useEffect(() => {
    getAccountWeapons();
   }, [accountWeapons]);
-
 
   return (
     <div className="flex w-full  justify-center gradient-bg-welcome">
@@ -36,6 +35,7 @@ function Weapons() {
       <div className="flex flex-wrap justify-center items-center mt-10">
         {accountWeapons.filter(data => data.weapon_type === selectedWeaponType).map((weapon, index) => (
           <WeaponCard
+          timestamp={weapon.timestamp}
           key={index}
           id={weapon._id}
           weapon={weapon.weapon_name}

@@ -3,8 +3,8 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { contractABI, contractAddressABI, gunStoreAddress } from "../utils_contract/details";
 import trainingPrices from '../weapons/trainingPrices'
-const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
-// const addressRoute = "http://localhost:4000/weapons"
+// const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
+const addressRoute = "http://localhost:4000/weapons"
 
 export const TransactionContext = React.createContext();
 
@@ -118,11 +118,30 @@ export const TransactionProvider = ({ children }) => {
       try {
         let newPrice = Number(weapon.weapon_price) + Number(trainingPrices[weapon.weapon_type][weapon.training_index])
         newPrice = newPrice.toFixed(5)
-        await axios.post(`${addressRoute}/updatePrice`,{_id:weapon._id,weapon_price:newPrice,weapon_training:weapon.weapon_training,training_index:weapon.training_index})
+        weapon.weapon_training[weapon.training_index]++
+        await axios.post(`${addressRoute}/updatePrice`,{_id:weapon._id,weapon_price:newPrice,weapon_training:weapon.weapon_training})
       } catch (error) {
         
       }
   }
+
+  const handleWeaponIdleTime = async(weapon)=>{
+    try {
+      console.log(weapon.timestamp);
+      console.log('before');
+      console.log(Date.now().toString());
+      console.log(new Date(timestamp).getTime());
+      console.log('after');
+      // let idle_time = Date.now().getTime() - new Date(timestamp).getTime()
+      // console.log(idle_time);
+      // let newPrice = idle_time * trainingPrices["idle"][weapon.training_index]
+      // newPrice = newPrice.toFixed(5)
+      // await axios.post(`${addressRoute}/updatePrice`,{_id:weapon._id,weapon_price:newPrice,weapon_training:weapon.weapon_training})
+    } catch (error) {
+      
+    }
+}
+
   const handleNewTransaction = async (userWeapon) => {
     try {
       if (!ethereum) return alert("Please connect to MetaMask.");
@@ -158,6 +177,7 @@ export const TransactionProvider = ({ children }) => {
           weapon_type: userWeapon.type,
           weapon_price: userWeapon.price,
           weapon_url: userWeapon.url,
+          timestamp:Date.UTC("+2"),
           account_metamask_address: currentAccount
         }
         await axios.post(`${addressRoute}/add`, weaponToAdd)
@@ -190,6 +210,7 @@ export const TransactionProvider = ({ children }) => {
         accountTransactions,
         accountWeapons,
         handleTrainingPrice,
+        handleWeaponIdleTime,
         getAccountWeapons,
         handleChange,
         handleNewTransaction,

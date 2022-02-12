@@ -14,7 +14,6 @@ export const TransactionCard = ({addressFrom,addressTo,amount,weapon,timestamp,u
     console.log(w);
     // calling new transaction function with the input data on the transaction context component.  
     handleNewTransaction(true);
-
   };
 
   return (

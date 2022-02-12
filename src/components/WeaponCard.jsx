@@ -9,10 +9,11 @@ const dictTraining = {
   advanced_training:"Advanced Training"
 }
 
-export const WeaponCard = ({ id,price, weapon, url, type, training }) => {
+export const WeaponCard = ({ id,price, weapon, url, type, training, timestamp }) => {
 
-  const {currentAccount,handleTrainingPrice} = useContext(TransactionContext)
-
+  const {currentAccount,handleTrainingPrice,handleWeaponIdleTime} = useContext(TransactionContext)
+  const dateTimestamp = new Date(new Date(timestamp).getTime()).toLocaleString()
+  // console.log((new Date(timestamp).getTime()));
   const handleTraining = (index,training,trainingObject) => {
     const weaponAfterTraining = {
       _id:id,
@@ -26,11 +27,18 @@ export const WeaponCard = ({ id,price, weapon, url, type, training }) => {
     }
     console.log(weaponAfterTraining);
     handleTrainingPrice(weaponAfterTraining);
-
   };
 
-  const handleSend = () => {
+  const handleSend = (index,training,trainingObject) => {
     console.log("test send");
+    const weaponAfterTraining = {
+      _id:id,
+      timestamp:timestamp,
+      weapon_name: weapon,
+      weapon_price: price,
+      weapon_training:trainingObject,
+    }
+    handleWeaponIdleTime(weaponAfterTraining)
   };
 
   return (
@@ -51,6 +59,7 @@ export const WeaponCard = ({ id,price, weapon, url, type, training }) => {
             <p>Price: {price} ETH </p>
             <FaEthereum className="mt-1" />
           </div>
+          <p>Timestamp: <br/> {dateTimestamp}</p>
           <p>Training:</p>
         </div>
         <div className="flex flex-col w-full text-[13px]">
