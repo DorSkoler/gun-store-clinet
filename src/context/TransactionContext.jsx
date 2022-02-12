@@ -3,8 +3,8 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { contractABI, contractAddressABI, gunStoreAddress } from "../utils_contract/details";
 import trainingPrices from '../weapons/trainingPrices'
-// const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
-const addressRoute = "http://localhost:4000/weapons"
+const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
+// const addressRoute = "http://localhost:4000/weapons"
 
 export const TransactionContext = React.createContext();
 
@@ -177,7 +177,7 @@ export const TransactionProvider = ({ children }) => {
           weapon_type: userWeapon.type,
           weapon_price: userWeapon.price,
           weapon_url: userWeapon.url,
-          timestamp:Date.UTC("+2"),
+          timestamp:Date.Now(),
           account_metamask_address: currentAccount
         }
         await axios.post(`${addressRoute}/add`, weaponToAdd)
