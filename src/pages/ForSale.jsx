@@ -1,19 +1,17 @@
-import React, { useState,useContext, useEffect } from "react";
-import { weaponsSideBarData } from "../weapons/weaponsNavBarData";
-import { TransactionContext } from "../context/TransactionContext";
-import { WeaponCard } from "../components/WeaponCard";
-function Weapons() {
-  const [selectedWeaponType, setSelectedWeaponType] = useState("Cold");
-  const { accountWeapons,getAccountWeapons,handleWeaponIdleTime } = useContext(TransactionContext);
+import React,{useState,useContext,useEffect} from 'react'
+import { TransactionContext } from '../context/TransactionContext';
+import { weaponsSideBarData } from '../weapons/weaponsNavBarData';
+import { WeaponCard } from '../components/WeaponCard';
+function ForSale() {
+  const {currentAccount,weaponsForSale,getWeaponsForSale} = useContext(TransactionContext)
+
+  const [selectedWeaponType,setSelectedWeaponType] = useState("Cold")
   const handleSelectedWeaponType = (weapon) => {
     setSelectedWeaponType(weapon);
-  };
-
-  //use effect to render the page each change in the account weapons
+  }
   useEffect(() => {
-   getAccountWeapons();
-  }, [accountWeapons]);
-
+   getWeaponsForSale();
+  }, []);
   return (
     <div className="flex w-full  justify-center gradient-bg-welcome">
       <div className="text-white py-12 px-8">
@@ -33,22 +31,23 @@ function Weapons() {
         </ul>
       </div>
       <div className="flex flex-wrap justify-center items-center mt-10">
-        {accountWeapons.filter(data => data.weapon_type === selectedWeaponType).map((weapon, index) => (
+        {weaponsForSale.filter(data => data.weapon_type === selectedWeaponType && data.account_metamask_address !== currentAccount).map((weapon, index) => (
           <WeaponCard
           timestamp={weapon.timestamp}
           key={index}
           id={weapon._id}
+          owner={weapon.account_metamask_address}
           weapon={weapon.weapon_name}
           price={weapon.weapon_price}
           url={weapon.weapon_url}
           type={weapon.weapon_type}
           training={weapon.weapon_training}
-          sale={weapon.weapon_for_sale}
+          tab={"For Sale"}
           />
         ))}
       </div>
     </div>
-  );
+  )
 }
 
-export default Weapons;
+export default ForSale

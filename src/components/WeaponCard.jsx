@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect,useState } from "react";
 import { FaEthereum } from "react-icons/fa";
 import { Button } from "./Button";
 import { TransactionContext } from "../context/TransactionContext";
@@ -9,11 +9,12 @@ const dictTraining = {
   advanced_training:"Advanced Training"
 }
 
-export const WeaponCard = ({ id,price, weapon, url, type, training, timestamp }) => {
+export const WeaponCard = ({ id,price, weapon, url, type, training, timestamp,sale,tab,owner }) => {
 
-  const {currentAccount,handleTrainingPrice,handleWeaponIdleTime} = useContext(TransactionContext)
+  const [forSale,setForSale] = useState(sale)
+  const {currentAccount,handleTrainingPrice,handleWeaponIdleTime,handleWeaponForSale,handleNewTransactionFromSale} = useContext(TransactionContext)
+
   const dateTimestamp = new Date(new Date(timestamp).getTime()).toLocaleString()
-  // console.log((new Date(timestamp).getTime()));
   const handleTraining = (index,training,trainingObject) => {
     const weaponAfterTraining = {
       _id:id,
@@ -30,17 +31,37 @@ export const WeaponCard = ({ id,price, weapon, url, type, training, timestamp })
     handleWeaponIdleTime(weaponAfterTraining);
   };
 
-  const handleSend = () => {
-    const weaponAfterIdleTime = {
+  const handleForSale = () => {
+    setForSale(!forSale)
+    const weaponForSale = {
       _id:id,
       timestamp:timestamp,
       weapon_name: weapon,
       weapon_price: price,
       weapon_type:type,
       weapon_training:training,
+      weapon_url:url,
+      weapon_for_sale:!forSale
     }
+    handleWeaponForSale(weaponForSale)
+  
   };
 
+  const handlePurchase=()=>{
+    const weaponTransaction = {
+      _id:id,
+      weapon_price:price,
+      account_metamask_address:owner,
+      weapon_url:url,
+      weapon_type:type,
+      weapon_name:weapon
+    }
+
+    handleNewTransactionFromSale(weaponTransaction)
+
+  }
+
+ 
   return (
     <div
       className="blue-glassmorphism m-4 flex flex-1
@@ -74,7 +95,13 @@ export const WeaponCard = ({ id,price, weapon, url, type, training, timestamp })
           alt={"weapon"}
           className="w-25 h-50 2xl:h-96 mb-2 rounded-md shadow-lg"
         />
-        <Button text={"Send"} onClick={handleSend} />
+        {
+          tab === "For Sale" ? 
+          <Button text={"Buy Weapon"} onClick={handlePurchase} /> 
+          :
+          <Button text={forSale ? "Remove From Sale" : "Sell Weapon"} onClick={handleForSale} />
+        }
+
       </div>
     </div>
   );

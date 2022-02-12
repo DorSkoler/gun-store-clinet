@@ -18,8 +18,8 @@ const Navbar = () => {
         </Link>
       </div>
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
-      {["Transactions","Weapons","Store"].map((item,index) =>(
-          <Link to={`/${item}`} key={index}>
+      {["Transactions","Weapons","For Sale","Store"].map((item,index) =>(
+          <Link to={`/${item.split(' ').join('')}`} key={index}>
             <NavBarItem key={item+index} title={item}/>
           </Link>
       ))}

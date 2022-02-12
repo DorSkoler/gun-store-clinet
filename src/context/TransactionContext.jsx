@@ -40,6 +40,8 @@ export const TransactionProvider = ({ children }) => {
   const [accountTransactions, setTransactions] = useState([]);
   //state for the account weapons to be viewd in the weapons page when the user logged in to his wallet.
   const [accountWeapons, setAccountWeapons] = useState([]);
+  //state for the weapons for sale to be viewd in the for sale page.
+  const [weaponsForSale,setWeaponsForSale] = useState([]);
 
   const getAccountTransactions = async () => {
     try {
@@ -114,6 +116,18 @@ export const TransactionProvider = ({ children }) => {
       [inputType]: e.target.value,
     }));
   };
+  const handleWeaponForSale = async (weapon) =>{
+    try {
+      console.log("Sell To");
+      console.log(weapon);
+      await axios.post(`${addressRoute}/updateForSale`, { _id: weapon._id, weapon_for_sale:weapon.weapon_for_sale })
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
 
   const handleTrainingPrice = async (weapon) => {
     try {
@@ -145,9 +159,24 @@ export const TransactionProvider = ({ children }) => {
   const handleNewTransaction = async (userWeapon) => {
     try {
       if (!ethereum) return alert("Please connect to MetaMask.");
-
+      //we want to make an update for the database first so we can have the object id,
+      //the purpose of this order is that we want to add to the blockchain the id so we can
+      //manage the sales for weapons properly.
+        const weaponToAdd = {
+          weapon_name: userWeapon.weapon,
+          weapon_type: userWeapon.type,
+          weapon_price: userWeapon.price,
+          weapon_url: userWeapon.url,
+          timestamp: Date.now(),
+          account_metamask_address: currentAccount
+        }
+        await axios.post(`${addressRoute}/add`, weaponToAdd)
+        const lastWeaponAdded = await axios.get(`${addressRoute}/getLastWeapon`)
       // new ethereum contract with the ABI and details of signer by the provider
       const tsxContract = createContractEth()
+
+
+
       //ethereum request for sending the new transaction with metamask
       await ethereum.request({
         method: "eth_sendTransaction",
@@ -164,29 +193,24 @@ export const TransactionProvider = ({ children }) => {
 
       //adding the new transaction to the blockchain with the solidity contract
       const tsHash = await tsxContract.addToBlockchain(
-        userWeapon ? gunStoreAddress : userInputData.addressTo,
-        userWeapon ? ethers.utils.parseEther(userWeapon.price)._hex : ethers.utils.parseEther(userInputData.amount)._hex,
-        userWeapon ? userWeapon.weapon : userInputData.weapon,
-        userWeapon ? userWeapon.type : null,
-        userWeapon ? userWeapon.url : null
+        gunStoreAddress,
+        ethers.utils.parseEther(userWeapon.price)._hex ,
+        userWeapon.weapon,
+        userWeapon.type,
+        userWeapon.url,
+        lastWeaponAdded.data._id,
       );
-      // ^^^^^ NEED TO SEE HOW WE PASS PARAMS TO ADD BLOCKCHAIN ^^^^^^^^^
-      if (userWeapon) {
-        const weaponToAdd = {
-          weapon_name: userWeapon.weapon,
-          weapon_type: userWeapon.type,
-          weapon_price: userWeapon.price,
-          weapon_url: userWeapon.url,
-          timestamp: Date.now(),
-          account_metamask_address: currentAccount
-        }
-        await axios.post(`${addressRoute}/add`, weaponToAdd)
-      }
+     
     } catch (error) {
+      const lastWeaponAdded = await axios.get(`${addressRoute}/getLastWeapon`)
+      //delete the weapon from database incase of an error in the transaction.
+      await axios.post(`${addressRoute}/delete`,{_id:lastWeaponAdded.data._id})
+
       console.log(error);
       throw new Error("No Eth Object");
     }
   };
+
   const getAccountWeapons = async () => {
     try {
       const res = await axios.post(`${addressRoute}/byMetamask`, { account_metamask_address: currentAccount })
@@ -195,6 +219,53 @@ export const TransactionProvider = ({ children }) => {
       console.log(error);
     }
   }
+  const getWeaponsForSale = async() =>{
+    try {
+      const res = await axios.get(`${addressRoute}/getWeaponsForSale`)
+      setWeaponsForSale(res.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+//"6207e6fbd2ce628851e2c37e"
+  const handleNewTransactionFromSale = async(weapon)=>{
+    try {
+      if (!ethereum) return alert("Please connect to MetaMask.");
+
+      // new ethereum contract with the ABI and details of signer by the provider
+      const tsxContract = createContractEth()
+      //ethereum request for sending the new transaction with metamask
+      await ethereum.request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            
+            from: currentAccount ,
+            //sending the coins to the owner of the weapon
+            to: weapon.account_metamask_address,
+            //The value transferred for the transaction in WEI.
+            //Parse the ether string representation of ether into a number instance of the amount of wei.
+            value:ethers.utils.parseEther(String(weapon.weapon_price))._hex 
+          },
+        ],
+      });
+      const tsHash = await tsxContract.addToBlockchain(
+         weapon.account_metamask_address,
+         ethers.utils.parseEther(String(weapon.weapon_price))._hex ,
+         weapon.weapon_name,
+         weapon.weapon_type,
+        weapon.weapon_url,
+        weapon._id
+      );
+
+
+      await axios.post(`${addressRoute}/updateAddress`, { account_metamask_address: currentAccount,_id:weapon._id })
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   //use effect that always checking whether a wallet is connected, the pages renders for every change.
   useEffect(() => {
     checkIfWalletConnected();
@@ -209,6 +280,10 @@ export const TransactionProvider = ({ children }) => {
         userInputData,
         accountTransactions,
         accountWeapons,
+        weaponsForSale,
+        handleNewTransactionFromSale,
+        getWeaponsForSale,
+        handleWeaponForSale,
         handleTrainingPrice,
         handleWeaponIdleTime,
         getAccountWeapons,
