@@ -28,12 +28,6 @@ export const TransactionProvider = ({ children }) => {
   // state for wallet account
   const [currentAccount, setCurrentAccount] = useState("");
   //state for the user data for new transaction
-  const [userInputData, setUserInputData] = useState({
-    addressTo: "",
-    amount: "",
-    weapon: "",
-    certification: "",
-  });
 
 
   //state for the account transaction to be viewd in the transaction page when the user logged in to his wallet
@@ -107,15 +101,6 @@ export const TransactionProvider = ({ children }) => {
     }
   };
 
-  // handle  user input for new transaction, on every change this function will change the state of the new data
-  //for the new transaction and change it with the right inputType, for example, 'addressTo' changed from '0x3' to '0x5'
-  const handleChange = (e, inputType) => {
-    console.log(inputType);
-    setUserInputData((prevState) => ({
-      ...prevState,
-      [inputType]: e.target.value,
-    }));
-  };
   const handleWeaponForSale = async (weapon) =>{
     try {
       console.log("Sell To");
@@ -277,7 +262,6 @@ export const TransactionProvider = ({ children }) => {
       value={{
         connectWallet,
         currentAccount,
-        userInputData,
         accountTransactions,
         accountWeapons,
         weaponsForSale,
@@ -287,7 +271,6 @@ export const TransactionProvider = ({ children }) => {
         handleTrainingPrice,
         handleWeaponIdleTime,
         getAccountWeapons,
-        handleChange,
         handleNewTransaction,
       }}
     >
