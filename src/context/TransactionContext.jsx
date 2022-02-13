@@ -4,8 +4,8 @@ import axios from "axios";
 import { contractABI, contractAddressABI, gunStoreAddress } from "../utils_contract/details";
 import trainingPrices from '../weapons/trainingPrices'
 
-const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
-// const addressRoute = "http://localhost:4000/weapons"
+// const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
+const addressRoute = "http://localhost:4000/weapons"
 
 export const TransactionContext = React.createContext();
 
@@ -27,7 +27,6 @@ const createContractEth = () => {
 export const TransactionProvider = ({ children }) => {
   // state for wallet account
   const [currentAccount, setCurrentAccount] = useState("");
-  //state for the user data for new transaction
 
 
   //state for the account transaction to be viewd in the transaction page when the user logged in to his wallet
@@ -103,10 +102,7 @@ export const TransactionProvider = ({ children }) => {
 
   const handleWeaponForSale = async (weapon) =>{
     try {
-      console.log("Sell To");
-      console.log(weapon);
       await axios.post(`${addressRoute}/updateForSale`, { _id: weapon._id, weapon_for_sale:weapon.weapon_for_sale })
-
     } catch (error) {
       console.log(error);
     }
@@ -143,7 +139,7 @@ export const TransactionProvider = ({ children }) => {
 
   const handleNewTransaction = async (userWeapon) => {
     try {
-      if (!ethereum) return alert("Please connect to MetaMask.");
+      if (ethereum){
       //we want to make an update for the database first so we can have the object id,
       //the purpose of this order is that we want to add to the blockchain the id so we can
       //manage the sales for weapons properly.
@@ -157,6 +153,8 @@ export const TransactionProvider = ({ children }) => {
         }
         await axios.post(`${addressRoute}/add`, weaponToAdd)
         const lastWeaponAdded = await axios.get(`${addressRoute}/getLastWeapon`)
+        console.log(lastWeaponAdded.data[0]._id);
+
       // new ethereum contract with the ABI and details of signer by the provider
       const tsxContract = createContractEth()
 
@@ -183,14 +181,20 @@ export const TransactionProvider = ({ children }) => {
         userWeapon.weapon,
         userWeapon.type,
         userWeapon.url,
-        lastWeaponAdded.data._id,
+        lastWeaponAdded.data[0]._id,
       );
+
+      await tsHash.wait()
+
+      }
+      else{
+        console.log("Ethereum is not present");
+      }
      
     } catch (error) {
-      const lastWeaponAdded = await axios.get(`${addressRoute}/getLastWeapon`)
+      const last = await axios.get(`${addressRoute}/getLastWeapon`)
       //delete the weapon from database incase of an error in the transaction.
-      await axios.post(`${addressRoute}/delete`,{_id:lastWeaponAdded.data._id})
-
+      await axios.post(`${addressRoute}/delete`,{_id:last.data[0]._id})
       console.log(error);
       throw new Error("No Eth Object");
     }
@@ -212,7 +216,6 @@ export const TransactionProvider = ({ children }) => {
       console.log(error);
     }
   }
-//"6207e6fbd2ce628851e2c37e"
   const handleNewTransactionFromSale = async(weapon)=>{
     try {
       if (!ethereum) return alert("Please connect to MetaMask.");
@@ -242,7 +245,7 @@ export const TransactionProvider = ({ children }) => {
         weapon.weapon_url,
         weapon._id
       );
-
+      await tsHash.wait()
 
       await axios.post(`${addressRoute}/updateAddress`, { account_metamask_address: currentAccount,_id:weapon._id })
 

@@ -1,22 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext,useState } from "react";
 import { TransactionContext } from "../context/TransactionContext";
 import {FaEthereum} from 'react-icons/fa';
 import {Button} from './Button'
+import Loading from "./Loading";
 export const WeaponCardStore = ({price,weapon,url,type}) => {
 
   const {handleNewTransaction} = useContext(TransactionContext)
-
+  const [isLoading,setIsLoading] = useState(false)
   //when user chose the weapon he wants to buy this function will create new weapon 'transaction' so the context will handle this.
-  const handleBuy = () => {
-    const userWeapon = {
-      weapon:weapon,
-      price:price,
-      url:url,
-      type:type
+  const handleBuy = async() => {
+    try {
+      const userWeapon = {
+        weapon:weapon,
+        price:price,
+        url:url,
+        type:type
+      }
+      // calling new transaction function with the selected weapon transaction. 
+      //setting loading animation to be true till transaction will completed.
+      setIsLoading(true)
+      await handleNewTransaction(userWeapon);
+      setIsLoading(false)
+  
+    } catch (error) {
+      console.log(error);
     }
-    // calling new transaction function with the selected weapon transaction. 
-    handleNewTransaction(userWeapon);
- 
+
   };
 
   return (
@@ -48,7 +57,12 @@ export const WeaponCardStore = ({price,weapon,url,type}) => {
           alt={"weapon"}
           className="w-25 h-50 2xl:h-96 mb-2 rounded-md shadow-lg"
         />
-        <Button text={"Buy"} onClick={handleBuy}/>
+        {isLoading
+              ? <Loading />
+              : (
+                <Button text={"Buy"} onClick={handleBuy}/>
+
+              )}
       </div>
     </div>
   );

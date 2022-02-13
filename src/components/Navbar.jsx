@@ -5,10 +5,6 @@ import { Link } from 'react-router-dom';
 import { HiMenuAlt4 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 
-const NavBarItem = ({title,classprops,onClick}) => (
-  <li className={`mx-4 cursor-pointer ${classprops}`} onClick={()=>onClick(false)}>{title}</li>
-)
-
 const Navbar = () => {
   const [toggleMenu,setToggleMenu] = useState(false)
   const {currentAccount,connectWallet} = useContext(TransactionContext)
@@ -25,7 +21,7 @@ const Navbar = () => {
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
           {["Transactions","Weapons","For Sale","Store"].map((item,index) =>(
               <Link to={`/${item.split(' ').join('')}`} key={index}>
-                <NavBarItem key={item+index} title={item}/>
+                  <li className="mx-4 cursor-pointer">{item}</li>
               </Link>
           ))}
           <li className='bg-[#2952e3] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#2546bd]' onClick={connectWallet}>
@@ -49,7 +45,7 @@ const Navbar = () => {
             </li>
             {["Transactions","Weapons","For Sale","Store"].map((item,index) =>(
               <Link to={`/${item.split(' ').join('')}`} key={index}>
-                <NavBarItem key={item+index} title={item} classprops="text-lg my-2" onClick={setToggleMenu}/>
+                <li className="mx-4 cursor-pointer text-lg my-2" onClick={()=>setToggleMenu(false)}>{item}</li>
               </Link>
           ))}
           </ul>

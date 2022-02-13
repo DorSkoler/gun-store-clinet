@@ -2,7 +2,7 @@ import React, { useContext,useEffect,useState } from "react";
 import { FaEthereum } from "react-icons/fa";
 import { Button } from "./Button";
 import { TransactionContext } from "../context/TransactionContext";
-
+import Loading from "./Loading";
 const dictTraining = {
   shooting_range: "Shooting Range",
   basic_training: "Basic Training",
@@ -12,8 +12,9 @@ const dictTraining = {
 export const WeaponCard = ({ id,price, weapon, url, type, training, timestamp,sale,tab,owner }) => {
 
   const [forSale,setForSale] = useState(sale)
+  const [isLoading,setIsLoading] = useState(false)
   const {currentAccount,handleTrainingPrice,handleWeaponIdleTime,handleWeaponForSale,handleNewTransactionFromSale} = useContext(TransactionContext)
-
+  
   const dateTimestamp = new Date(new Date(timestamp).getTime()).toLocaleString()
   const handleTraining = (index,training,trainingObject) => {
     const weaponAfterTraining = {
@@ -31,38 +32,52 @@ export const WeaponCard = ({ id,price, weapon, url, type, training, timestamp,sa
     handleWeaponIdleTime(weaponAfterTraining);
   };
 
-  const handleForSale = () => {
-    setForSale(!forSale)
-    const weaponForSale = {
-      _id:id,
-      timestamp:timestamp,
-      weapon_name: weapon,
-      weapon_price: price,
-      weapon_type:type,
-      weapon_training:training,
-      weapon_url:url,
-      weapon_for_sale:!forSale
-    }
-    handleWeaponForSale(weaponForSale)
-  
+  const handleForSale = async() => {
+    try {
+        setForSale(!forSale)
+        const weaponForSale = {
+          _id:id,
+          timestamp:timestamp,
+          weapon_name: weapon,
+          weapon_price: price,
+          weapon_type:type,
+          weapon_training:training,
+          weapon_url:url,
+          weapon_for_sale:!forSale
+        }
+        setIsLoading(true)
+        await handleWeaponForSale(weaponForSale)
+        setIsLoading(false)
+    
+      } catch (error) {
+        console.log(error);
+      }
   };
 
-  const handlePurchase=()=>{
-    const weaponTransaction = {
-      _id:id,
-      weapon_price:price,
-      account_metamask_address:owner,
-      weapon_url:url,
-      weapon_type:type,
-      weapon_name:weapon
+  const handlePurchase= async()=>{
+    try {
+      const weaponTransaction = {
+        _id:id,
+        weapon_price:price,
+        account_metamask_address:owner,
+        weapon_url:url,
+        weapon_type:type,
+        weapon_name:weapon
+      }
+      setIsLoading(true)
+      await handleNewTransactionFromSale(weaponTransaction)
+      setIsLoading(false)
+      
+    } catch (error) {
+      console.log(error);
     }
-
-    handleNewTransactionFromSale(weaponTransaction)
 
   }
 
- 
-  return (
+  useEffect(() => {
+    
+  }, [isLoading]); 
+   return (
     <div
       className="blue-glassmorphism m-4 flex flex-1
       2xl:min-w-[450px]
@@ -96,9 +111,11 @@ export const WeaponCard = ({ id,price, weapon, url, type, training, timestamp,sa
           className="w-25 h-50 2xl:h-96 mb-2 rounded-md shadow-lg"
         />
         {
+          //if we are on for sale page we render the page diffrently, from sale page we only show the buy option
           tab === "For Sale" ? 
-          <Button text={"Buy Weapon"} onClick={handlePurchase} /> 
+          (isLoading ? <Loading/> :<Button text={"Buy Weapon"} onClick={handlePurchase} />)
           :
+          //else we are on weapons page and we need the button to be sell or remove
           <Button text={forSale ? "Remove From Sale" : "Sell Weapon"} onClick={handleForSale} />
         }
 
