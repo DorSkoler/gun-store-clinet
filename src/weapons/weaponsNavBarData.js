@@ -1,32 +1,35 @@
+import {
+  GiAk47U,
+  GiAk47,
+  GiBowieKnife,
+  GiPistolGun,
+  GiSawedOffShotgun,
+} from "react-icons/gi";
+import { BiTargetLock } from "react-icons/bi";
+
 export const weaponsSideBarData = [
-    {
-        title:"Cold",
-        icon:"",
-        toUrl:"",
-    },
-    {
-        title:"Heavy",
-        icon:"",
-        toUrl:"",
-    },
-    {
-        title:"Light",
-        icon:"",
-        toUrl:"",
-    },
-    {
-        title:"Pistol",
-        icon:"",
-        toUrl:"",
-    },
-    {
-        title:"Shotgun",
-        icon:"",
-        toUrl:"",
-    },
-    {
-        title:"Sniper",
-        icon:"",
-        toUrl:"",
-    },
-]
+  {
+    title: "Cold",
+    icon: GiBowieKnife,
+  },
+  {
+    title: "Pistol",
+    icon: GiPistolGun,
+  },
+  {
+    title: "Shotgun",
+    icon: GiSawedOffShotgun,
+  },
+  {
+    title: "Light",
+    icon: GiAk47U,
+  },
+  {
+    title: "Heavy",
+    icon: GiAk47,
+  },
+  {
+    title: "Sniper",
+    icon: BiTargetLock,
+  },
+];
