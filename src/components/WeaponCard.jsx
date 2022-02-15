@@ -17,6 +17,7 @@ export const WeaponCard = ({ id,price, weapon, url, type, training, timestamp })
   const handleTraining = (index,training,trainingObject) => {
     const weaponAfterTraining = {
       _id:id,
+      timestamp:timestamp,
       weapon_name: weapon,
       weapon_type: type,
       weapon_price: price,
@@ -25,20 +26,19 @@ export const WeaponCard = ({ id,price, weapon, url, type, training, timestamp })
       training_index:index,
       account_metamask_address: currentAccount
     }
-    console.log(weaponAfterTraining);
     handleTrainingPrice(weaponAfterTraining);
+    handleWeaponIdleTime(weaponAfterTraining);
   };
 
-  const handleSend = (index,training,trainingObject) => {
-    console.log("test send");
-    const weaponAfterTraining = {
+  const handleSend = () => {
+    const weaponAfterIdleTime = {
       _id:id,
       timestamp:timestamp,
       weapon_name: weapon,
       weapon_price: price,
-      weapon_training:trainingObject,
+      weapon_type:type,
+      weapon_training:training,
     }
-    handleWeaponIdleTime(weaponAfterTraining)
   };
 
   return (

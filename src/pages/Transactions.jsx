@@ -11,7 +11,8 @@ const Transactions = () => {
 
 
         <div className="flex flex-wrap justify-center items-center mt-10">
-          {[...accountTransactions].map((transaction, i) => (
+          {accountTransactions.filter(transaction => 
+          {return transaction.addressFrom.toLowerCase() === currentAccount || transaction.addressTo.toLowerCase() === currentAccount}).map((transaction, i) => (
             <TransactionCard
               key={i}
               weapon={transaction.weapon}

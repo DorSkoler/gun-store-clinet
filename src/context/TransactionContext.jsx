@@ -3,8 +3,9 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { contractABI, contractAddressABI, gunStoreAddress } from "../utils_contract/details";
 import trainingPrices from '../weapons/trainingPrices'
-const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
-// const addressRoute = "http://localhost:4000/weapons"
+
+// const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
+const addressRoute = "http://localhost:4000/weapons"
 
 export const TransactionContext = React.createContext();
 
@@ -114,33 +115,32 @@ export const TransactionProvider = ({ children }) => {
     }));
   };
 
-  const handleTrainingPrice = async(weapon)=>{
-      try {
-        let newPrice = Number(weapon.weapon_price) + Number(trainingPrices[weapon.weapon_type][weapon.training_index])
-        newPrice = newPrice.toFixed(5)
-        weapon.weapon_training[weapon.training_index]++
-        await axios.post(`${addressRoute}/updatePrice`,{_id:weapon._id,weapon_price:newPrice,weapon_training:weapon.weapon_training})
-      } catch (error) {
-        
-      }
+  const handleTrainingPrice = async (weapon) => {
+    try {
+      let newPrice = Number(weapon.weapon_price) + Number(trainingPrices[weapon.weapon_type][weapon.training_index])
+      newPrice = newPrice.toFixed(5)
+      weapon.weapon_training[weapon.training_index]++
+      await axios.post(`${addressRoute}/updatePrice`, { _id: weapon._id, weapon_price: newPrice, weapon_training: weapon.weapon_training })
+    } catch (error) {
+
+    }
   }
 
-  const handleWeaponIdleTime = async(weapon)=>{
+  const handleWeaponIdleTime = async (weapon) => {
     try {
-      console.log(weapon.timestamp);
-      console.log('before');
-      console.log(Date.now().toString());
-      console.log(new Date(timestamp).getTime());
-      console.log('after');
-      // let idle_time = Date.now().getTime() - new Date(timestamp).getTime()
-      // console.log(idle_time);
-      // let newPrice = idle_time * trainingPrices["idle"][weapon.training_index]
-      // newPrice = newPrice.toFixed(5)
-      // await axios.post(`${addressRoute}/updatePrice`,{_id:weapon._id,weapon_price:newPrice,weapon_training:weapon.weapon_training})
+      let idle_time = (Date.now() - new Date(weapon.timestamp).getTime())
+      idle_time = Math.floor((idle_time / (1000 * 60 * 60)).toFixed(6))
+      if (weapon.weapon_training["idle_time"] === idle_time) return
+      else {
+        weapon.weapon_training["idle_time"] = idle_time
+        let newPrice = weapon.weapon_price - idle_time * trainingPrices[weapon.weapon_type]["idle"]
+        newPrice = newPrice.toFixed(6)
+        await axios.post(`${addressRoute}/idlePrice`, { _id: weapon._id, weapon_price: newPrice, weapon_training: weapon.weapon_training })
+      }
     } catch (error) {
-      
+      console.log(error);
     }
-}
+  }
 
   const handleNewTransaction = async (userWeapon) => {
     try {
@@ -177,7 +177,7 @@ export const TransactionProvider = ({ children }) => {
           weapon_type: userWeapon.type,
           weapon_price: userWeapon.price,
           weapon_url: userWeapon.url,
-          timestamp:Date.now(),
+          timestamp: Date.now(),
           account_metamask_address: currentAccount
         }
         await axios.post(`${addressRoute}/add`, weaponToAdd)
@@ -187,9 +187,9 @@ export const TransactionProvider = ({ children }) => {
       throw new Error("No Eth Object");
     }
   };
-  const getAccountWeapons = async()=>{
+  const getAccountWeapons = async () => {
     try {
-      const res = await axios.post(`${addressRoute}/byMetamask`, {account_metamask_address:currentAccount})
+      const res = await axios.post(`${addressRoute}/byMetamask`, { account_metamask_address: currentAccount })
       setAccountWeapons(res.data)
     } catch (error) {
       console.log(error);
