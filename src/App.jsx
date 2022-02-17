@@ -6,11 +6,8 @@ import ForSale from "./pages/ForSale";
 
 const App = () => (
   <Router>
-    <div className="min-h-screen">
-      <div className="gradient-bg-services">
+    <div className="min-h-screen gradient-bg-welcome">
         <Navbar />
-      </div>
-      <div className="gradient-bg-welcome">
         <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/transactions" element={<Transactions/>}/>
@@ -19,7 +16,6 @@ const App = () => (
         <Route path="/weapons" element={<Weapons/>}/>
         </Routes>
         <Footer />
-      </div>
     </div>
   </Router>
 );

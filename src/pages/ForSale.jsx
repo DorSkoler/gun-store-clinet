@@ -2,6 +2,7 @@ import React,{useState,useContext,useEffect} from 'react'
 import { TransactionContext } from '../context/TransactionContext';
 import { weaponsSideBarData } from '../weapons/weaponsNavBarData';
 import { WeaponCard } from '../components/WeaponCard';
+import SideBar from '../components/SideBar'
 function ForSale() {
   const {currentAccount,weaponsForSale,getWeaponsForSale} = useContext(TransactionContext)
 
@@ -13,24 +14,11 @@ function ForSale() {
    getWeaponsForSale();
   }, []);
   return (
-    <div className="flex w-full  justify-center gradient-bg-welcome">
-      <div className="text-white py-12 px-8">
-        <ul>
-          {weaponsSideBarData.map((item, key) => {
-            return (
-              <li
-                className="py-5 cursor-pointer"
-                key={key}
-                onClick={() => handleSelectedWeaponType(item.title)}
-              >
-                <div>{item.icon}</div>
-                <div>{item.title}</div>
-              </li>
-            );
-          })}
-        </ul>
+    <div className="flex w-full md:flex-row justify-center gradient-bg-welcome">
+       <div className="text-white py-12 px-8">
+       <SideBar handleChange={handleSelectedWeaponType} selected={selectedWeaponType}/>
       </div>
-      <div className="flex flex-wrap justify-center items-center mt-10">
+      {currentAccount ? (<div className="flex flex-wrap justify-center items-center mt-10">
         {weaponsForSale.filter(data => data.weapon_type === selectedWeaponType && data.account_metamask_address !== currentAccount).map((weapon, index) => (
           <WeaponCard
           timestamp={weapon.timestamp}
@@ -45,7 +33,17 @@ function ForSale() {
           tab={"For Sale"}
           />
         ))}
-      </div>
+      </div>) : (<div className="flex justify-center items-center flex-col text-white">
+              <h1 className="py-12 px-8 font-semibold">
+              Login to Metamask to view our weapons.
+              </h1>
+            </div>)}
+
+
+            
+
+
+
     </div>
   )
 }

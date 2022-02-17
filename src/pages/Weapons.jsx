@@ -2,6 +2,7 @@ import React, { useState,useContext, useEffect } from "react";
 import { weaponsSideBarData } from "../weapons/weaponsNavBarData";
 import { TransactionContext } from "../context/TransactionContext";
 import { WeaponCard } from "../components/WeaponCard";
+import SideBar from "../components/SideBar";
 function Weapons() {
   const [selectedWeaponType, setSelectedWeaponType] = useState("Cold");
   const { accountWeapons,getAccountWeapons,handleWeaponIdleTime } = useContext(TransactionContext);
@@ -16,21 +17,8 @@ function Weapons() {
 
   return (
     <div className="flex w-full  justify-center gradient-bg-welcome">
-      <div className="text-white py-12 px-8">
-        <ul>
-          {weaponsSideBarData.map((item, key) => {
-            return (
-              <li
-                className="py-5 cursor-pointer"
-                key={key}
-                onClick={() => handleSelectedWeaponType(item.title)}
-              >
-                <div>{item.icon}</div>
-                <div>{item.title}</div>
-              </li>
-            );
-          })}
-        </ul>
+       <div className="text-white py-12 px-8">
+       <SideBar handleChange={handleSelectedWeaponType} selected={selectedWeaponType}/>
       </div>
       <div className="flex flex-wrap justify-center items-center mt-10">
         {accountWeapons.filter(data => data.weapon_type === selectedWeaponType).map((weapon, index) => (

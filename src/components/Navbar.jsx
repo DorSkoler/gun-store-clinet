@@ -4,6 +4,7 @@ import { TransactionContext } from "../context/TransactionContext";
 import { Link } from "react-router-dom";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
+import {FaEthereum} from 'react-icons/fa';
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -22,15 +23,23 @@ const Navbar = () => {
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
         {["Transactions", "Weapons", "For Sale", "Store"].map((item, index) => (
           <Link to={`/${item.split(" ").join("")}`} key={index}>
-            <li className="mx-4 cursor-pointer">{item}</li>
+            <li className="mx-4 cursor-pointer hvr-underline-from-left">{item}</li>
           </Link>
         ))}
-        <li
-          className="bg-[#2952e3] py-2 px-7 mx-4 rounded-full transition-all duration-300 cursor-pointer hover:bg-[#2546bd]"
-          onClick={connectWallet}
-        >
-          {currentAccount ? shortAddress : "Login"}
-        </li>
+        
+          <div class="grid gap-8 items-start justify-center px-4">
+            <div class="relative group">
+              <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+              <button class="relative px-7 py-4 bg-black rounded-full leading-none flex items-center divide-x divide-gray-600" onClick={connectWallet}>
+                <span class="flex items-center space-x-5">
+                  <FaEthereum className="text-pink-500" fontSize={20}/>
+
+                  <span class="pr-6 text-gray-100">{currentAccount ? shortAddress : "Login"}</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        
       </ul>
 
     
@@ -63,7 +72,7 @@ const Navbar = () => {
               (item, index) => (
                 <Link to={`/${item.split(" ").join("")}`} key={index}>
                   <li
-                    className="mx-4 cursor-pointer text-lg my-2"
+                    className="mx-4 cursor-pointer text-lg my-2 hvr-underline-from-left"
                     onClick={() => setToggleMenu(false)}
                   >
                     {item}
