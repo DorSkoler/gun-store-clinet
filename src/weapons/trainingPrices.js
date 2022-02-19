@@ -1,5 +1,4 @@
 export default {
-    //------Cold-----//
     "Cold": {
         shooting_range: "0.0001",
         basic_training: "0.0002",

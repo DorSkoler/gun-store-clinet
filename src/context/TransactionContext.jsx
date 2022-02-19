@@ -4,8 +4,8 @@ import axios from "axios";
 import { contractABI, contractAddressABI, gunStoreAddress } from "../utils_contract/details";
 import trainingPrices from '../weapons/trainingPrices'
 
-// const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
-const addressRoute = "http://localhost:4000/weapons"
+const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
+// const addressRoute = "http://localhost:4000/weapons"
 
 export const TransactionContext = React.createContext();
 
@@ -73,10 +73,6 @@ export const TransactionProvider = ({ children }) => {
         //setting the account transactions so we can show his data as the current state.
         getAccountTransactions();
       }
-      // NOT SURE IF NEEDED THE ELSE PART
-      // } else {
-      //   return alert("Please register to MetaMask.");
-      // }
     } catch (error) {
       console.log(error);
       throw new Error("No Eth Object");
