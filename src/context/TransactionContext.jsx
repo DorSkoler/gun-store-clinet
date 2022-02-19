@@ -108,8 +108,11 @@ export const TransactionProvider = ({ children }) => {
 
   const handleTrainingPrice = async (weapon) => {
     try {
-      let newPrice = Number(weapon.weapon_price) + Number(trainingPrices[weapon.weapon_type][weapon.training_index])
+      let idle_time = (Date.now() - new Date(weapon.timestamp).getTime())
+      idle_time = Math.floor((idle_time / (1000 * 60 * 60)).toFixed(6))
+      let newPrice = Number(weapon.weapon_price) + Number(trainingPrices[weapon.weapon_type][weapon.training_index]) - Number(trainingPrices[weapon.weapon_type]["idle"] * idle_time)
       newPrice = newPrice.toFixed(5)
+      weapon.weapon_training["idle_time"] = 0
       weapon.weapon_training[weapon.training_index]++
       await axios.post(`${addressRoute}/updatePrice`, { _id: weapon._id, weapon_price: newPrice, weapon_training: weapon.weapon_training })
     } catch (error) {
@@ -117,21 +120,21 @@ export const TransactionProvider = ({ children }) => {
     }
   }
 
-  const handleWeaponIdleTime = async (weapon) => {
-    try {
-      let idle_time = (Date.now() - new Date(weapon.timestamp).getTime())
-      idle_time = Math.floor((idle_time / (1000 * 60 * 60)).toFixed(6))
-      if (weapon.weapon_training["idle_time"] === idle_time) return
-      else {
-        weapon.weapon_training["idle_time"] = idle_time
-        let newPrice = weapon.weapon_price - idle_time * trainingPrices[weapon.weapon_type]["idle"]
-        newPrice = newPrice.toFixed(6)
-        await axios.post(`${addressRoute}/idlePrice`, { _id: weapon._id, weapon_price: newPrice, weapon_training: weapon.weapon_training })
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // const handleWeaponIdleTime = async (weapon) => {
+  //   try {
+  //     let idle_time = (Date.now() - new Date(weapon.timestamp).getTime())
+  //     idle_time = Math.floor((idle_time / (1000 * 60 * 60)).toFixed(6))
+  //     if (weapon.weapon_training["idle_time"] === idle_time) return
+  //     else {
+  //       weapon.weapon_training["idle_time"] = idle_time
+  //       let newPrice = weapon.weapon_price - idle_time * trainingPrices[weapon.weapon_type]["idle"]
+  //       newPrice = newPrice.toFixed(6)
+  //       await axios.post(`${addressRoute}/idlePrice`, { _id: weapon._id, weapon_price: newPrice, weapon_training: weapon.weapon_training })
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   const handleNewTransaction = async (userWeapon) => {
     try {
