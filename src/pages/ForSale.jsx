@@ -12,7 +12,7 @@ function ForSale() {
   }
   useEffect(() => {
    getWeaponsForSale();
-  }, []);
+  }, [weaponsForSale]);
   return (
     <div className="flex w-full md:flex-row justify-center gradient-bg-welcome">
        <div className="text-white py-12 px-8">
@@ -30,7 +30,6 @@ function ForSale() {
           url={weapon.weapon_url}
           type={weapon.weapon_type}
           training={weapon.weapon_training}
-          tab={"For Sale"}
           />
         ))}
       </div>) : (<div className="flex justify-center items-center flex-col text-white">

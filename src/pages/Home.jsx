@@ -26,23 +26,14 @@ const Home = () => {
             <br /> Buy and sell weapons easily with our Gun Shop.
           </p>
           {!currentAccount && (
-            // <button
-            //   onClick={connectWallet}
-            //   className="flex flex-row justify-center items-center my-5 p-3 rounded-full cursor-pointer  bg-gradient-to-r from-[#11998e] to-[#38ef7d]  hover:opacity-90 transition-all duration-300"
-            // >
-            //   <BsWallet2 className="text-white mr-2" />
-            //   <p className="text-white text-base font-semibold">
-            //     Connect Wallet
-            //   </p>
-            // </button>
-            <div class="grid gap-8 items-center justify-center px-4 py-7">
-            <div class="relative group">
-              <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-              <button class="relative px-7 py-4 bg-black rounded-full leading-none flex items-center divide-x divide-gray-600" onClick={connectWallet}>
-                <span class="flex items-center space-x-5">
+            <div className="grid gap-8 items-center justify-center px-4 py-7">
+            <div className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+              <button className="relative px-7 py-4 bg-black rounded-full leading-none flex items-center divide-x divide-gray-600" onClick={connectWallet}>
+                <span className="flex items-center space-x-5">
                   <BsWallet2 className="text-pink-500" fontSize={20}/>
 
-                  <span class="pr-6 text-gray-100">{currentAccount ? shortAddress : "Connect Wallet"}</span>
+                  <span className="pr-6 text-gray-100">Connect Wallet</span>
                 </span>
               </button>
             </div>

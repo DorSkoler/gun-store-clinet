@@ -9,8 +9,8 @@ const Transactions = () => {
       <div className="flex flex-col md:p-12 py-12 px-4">
         <h3 className="text-white text-3xl text-center my-2">Transaction list</h3>
 
-
-        <div className="flex flex-wrap justify-center items-center mt-10">
+        
+        { currentAccount ?(<div className="flex flex-wrap justify-center items-center mt-10">
           {accountTransactions.filter(transaction => 
           {return transaction.addressFrom.toLowerCase() === currentAccount || transaction.addressTo.toLowerCase() === currentAccount}).map((transaction, i) => (
             <TransactionCard
@@ -24,7 +24,13 @@ const Transactions = () => {
               addressTo={transaction.addressTo}
             />
           ))}
-        </div>
+        </div>) :
+        (<div className="flex justify-center items-center flex-col text-white">
+        <h1 className="py-12 px-8 font-semibold">
+        Login to Metamask to view your transactions.
+        </h1>
+      </div>)
+        }
       </div>
     </div>
   );

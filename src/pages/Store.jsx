@@ -23,9 +23,9 @@ function Store() {
       (<div className="flex flex-wrap justify-center items-center mt-10">
         {weaponsData
           .filter((data) => data.type === selectedWeaponType)
-          .map((weapon, index) => (
+          .map((weapon) => (
             <WeaponCardStore
-              key={index}
+              key={weapon.id}
               weapon={weapon.name}
               price={weapon.price}
               url={weapon.img}
