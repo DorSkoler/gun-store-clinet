@@ -14,7 +14,7 @@ function ForSale() {
    getWeaponsForSale();
   }, [weaponsForSale]);
   return (
-    <div className="flex w-full md:flex-row justify-center gradient-bg-welcome">
+    <div className="flex md:flex-row flex-col justify-center gradient-bg-welcome">
        <div className="text-white py-12 px-8">
        <SideBar handleChange={handleSelectedWeaponType} selected={selectedWeaponType}/>
       </div>

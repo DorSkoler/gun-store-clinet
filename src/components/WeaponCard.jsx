@@ -35,7 +35,7 @@ export const WeaponCard = ({
     new Date(timestamp).getTime()
   ).toLocaleString();
 
-  const handleTraining = (index, training, trainingObject) => {
+  const handleTraining = (index) => {
     const weaponAfterTraining = {
       _id: id,
       timestamp: timestamp,
@@ -43,7 +43,7 @@ export const WeaponCard = ({
       weapon_type: type,
       weapon_price: price,
       weapon_url: url,
-      weapon_training: trainingObject,
+      weapon_training: training,
       training_index: index,
       account_metamask_address: currentAccount,
     };
@@ -99,7 +99,6 @@ export const WeaponCard = ({
               number={training[item]}
               index={item}
               text={dictTraining[item]}
-              trainingObject={training}
               onClick={handleTraining}
             />
           ))}
