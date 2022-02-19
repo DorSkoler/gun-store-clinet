@@ -33,6 +33,7 @@ function Weapons() {
           type={weapon.weapon_type}
           training={weapon.weapon_training}
           sale={weapon.weapon_for_sale}
+          lastModified={weapon.last_modified}
           />
         ))}
       </div>

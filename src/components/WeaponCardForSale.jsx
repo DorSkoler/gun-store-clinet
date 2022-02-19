@@ -48,26 +48,26 @@ export const WeaponCardForSale = ({
 
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{weapon}</div>
-        <p className="flex">
-          <p className="font-semibold ">From:</p>
+        <span className="flex">
+          <p className="font-semibold text-pink-500 px-2">From:</p>
           {shortAddress}
-        </p>
-        <p className="flex">
-          <p className="font-semibold ">Shooting Range:</p>
+        </span>
+        <span className="flex">
+          <p className="font-semibold text-pink-500 px-2">Shooting Range:</p>
           {training.shooting_range}
-        </p>
-        <p className="flex">
-          <p className="font-semibold">Basic Training:</p>
+        </span>
+        <span className="flex">
+          <p className="font-semibold text-pink-500 px-2">Basic Training:</p>
           {training.basic_training}
-        </p>
-        <p className="flex">
-          <p className="font-semibold">Advanced Training:</p>
+        </span>
+        <span className="flex">
+          <p className="font-semibold text-pink-500 px-2">Advanced Training:</p>
           {training.advanced_training}
-        </p>
-        <p className="flex">
-          <p className="font-semibold">Idle Time Passed:</p>
+        </span>
+        <span className="flex">
+          <p className="font-semibold text-pink-500 px-2">Last Modified:</p>
           {training.idle_time} Hours
-        </p>
+        </span>
       </div>
       {
         //if we are on for sale page we render the page diffrently, from sale page we only show the buy option

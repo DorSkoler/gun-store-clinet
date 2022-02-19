@@ -27,7 +27,7 @@ export default {
         shooting_range: "0.0015",
         basic_training: "0.0045",
         advanced_training: "0.00067",
-        idle: "0.005"
+        idle: "0.00025"
     },
     "Sniper":{
         shooting_range: "0.025",

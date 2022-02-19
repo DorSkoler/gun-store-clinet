@@ -10,7 +10,6 @@ function Store() {
   const [selectedWeaponType, setSelectedWeaponType] = useState("Cold");
 
   const handleSelectedWeaponType = (weapon) => {
-    console.log(weapon);
     setSelectedWeaponType(weapon);
   };
   return (
