@@ -27,14 +27,14 @@ const Navbar = () => {
           </Link>
         ))}
         
-          <div class="grid gap-8 items-start justify-center px-4">
-            <div class="relative group">
-              <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-              <button class="relative px-7 py-4 bg-black rounded-full leading-none flex items-center divide-x divide-gray-600" onClick={connectWallet}>
-                <span class="flex items-center space-x-5">
+          <div className="grid gap-8 items-start justify-center px-4">
+            <div className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+              <button className="relative px-7 py-4 bg-black rounded-full leading-none flex items-center divide-x divide-gray-600" onClick={connectWallet}>
+                <span className="flex items-center space-x-5">
                   <FaEthereum className="text-pink-500" fontSize={20}/>
 
-                  <span class="pr-6 text-gray-100">{currentAccount ? shortAddress : "Login"}</span>
+                  <span className="pr-6 text-gray-100">{currentAccount ? shortAddress : "Login"}</span>
                 </span>
               </button>
             </div>
