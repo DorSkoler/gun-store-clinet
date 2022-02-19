@@ -66,7 +66,7 @@ const Navbar = () => {
           "
           >
             <li className="text-xl w-full my-2">
-              <AiOutlineClose onClick={() => setToggleMenu(false)} />
+              <AiOutlineClose className="cursor-pointer" onClick={() => setToggleMenu(false)} />
             </li>
             {["Transactions", "Weapons", "For Sale", "Store"].map(
               (item, index) => (

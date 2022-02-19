@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../../public/images/logo.png'
+import logo from '/images/logo.png'
 const Footer = () => (
   <div className="w-full flex md:justify-center justify-between items-center flex-col p-4 gradient-bg-welcome mt-20">
     <div className="w-full flex sm:flex-row flex-col justify-center items-center my-4">

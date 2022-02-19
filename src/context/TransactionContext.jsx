@@ -73,10 +73,6 @@ export const TransactionProvider = ({ children }) => {
         //setting the account transactions so we can show his data as the current state.
         getAccountTransactions();
       }
-      // NOT SURE IF NEEDED THE ELSE PART
-      // } else {
-      //   return alert("Please register to MetaMask.");
-      // }
     } catch (error) {
       console.log(error);
       throw new Error("No Eth Object");
