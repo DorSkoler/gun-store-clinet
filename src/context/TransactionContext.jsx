@@ -112,7 +112,8 @@ export const TransactionProvider = ({ children }) => {
       idle_time = Math.floor((idle_time / (1000 * 60 * 60)).toFixed(6))
 
       let time_passed = (Date.now() - new Date(weapon.timestamp).getTime())
-      time_passed = Math.floor((idle_time / (1000 * 60 * 60)).toFixed(6))
+      time_passed = Math.floor((time_passed / (1000 * 60 * 60)).toFixed(6))
+      
       if ((time_passed / 24 + 1) * 3 > weapon.count) {
         let newPrice = Number(weapon.weapon_price) + Number(trainingPrices[weapon.weapon_type][weapon.training_index])
         newPrice = newPrice.toFixed(5)

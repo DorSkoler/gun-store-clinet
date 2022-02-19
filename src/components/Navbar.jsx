@@ -4,10 +4,12 @@ import { TransactionContext } from "../context/TransactionContext";
 import { Link } from "react-router-dom";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
-import {FaEthereum} from 'react-icons/fa';
+import { FaEthereum } from "react-icons/fa";
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("");
+  const h = `mx-4 cursor-pointer hvr-underline-from-left`;
   const { currentAccount, connectWallet } = useContext(TransactionContext);
   const shortAddress = `${currentAccount.slice(0, 5)}…${currentAccount.slice(
     currentAccount.length - 4
@@ -23,26 +25,38 @@ const Navbar = () => {
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
         {["Transactions", "Weapons", "For Sale", "Store"].map((item, index) => (
           <Link to={`/${item.split(" ").join("")}`} key={index}>
-            <li className="mx-4 cursor-pointer hvr-underline-from-left">{item}</li>
+            <li
+              className={
+                selectedItem === item
+                  ? `border-4 border-transparent border-b-[#ad5389] cursor-pointer mx-4`
+                  : `mx-4 cursor-pointer hvr-underline-from-left`
+              }
+              onClick={() => setSelectedItem(item)}
+            >
+              {item}
+            </li>
           </Link>
         ))}
-        
-          <div className="grid gap-8 items-start justify-center px-4">
-            <div className="relative group">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-              <button className="relative px-7 py-4 bg-black rounded-full leading-none flex items-center divide-x divide-gray-600" onClick={connectWallet}>
-                <span className="flex items-center space-x-5">
-                  <FaEthereum className="text-pink-500" fontSize={20}/>
 
-                  <span className="pr-6 text-gray-100">{currentAccount ? shortAddress : "Login"}</span>
+        <div className="grid gap-8 items-start justify-center px-4">
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+            <button
+              className="relative px-7 py-4 bg-black rounded-full leading-none flex items-center divide-x divide-gray-600"
+              onClick={connectWallet}
+            >
+              <span className="flex items-center space-x-5">
+                <FaEthereum className="text-pink-500" fontSize={20} />
+
+                <span className="pr-6 text-gray-100">
+                  {currentAccount ? shortAddress : "Login"}
                 </span>
-              </button>
-            </div>
+              </span>
+            </button>
           </div>
-        
+        </div>
       </ul>
 
-    
       <div className="flex relative transition-all duration-150">
         {/* for mobile use, toggle menu will show the menu of mobile view */}
         {!toggleMenu && (
@@ -66,14 +80,21 @@ const Navbar = () => {
           "
           >
             <li className="text-xl w-full my-2">
-              <AiOutlineClose className="cursor-pointer" onClick={() => setToggleMenu(false)} />
+              <AiOutlineClose
+                className="cursor-pointer"
+                onClick={() => setToggleMenu(false)}
+              />
             </li>
             {["Transactions", "Weapons", "For Sale", "Store"].map(
               (item, index) => (
                 <Link to={`/${item.split(" ").join("")}`} key={index}>
                   <li
-                    className="mx-4 cursor-pointer text-lg my-2 hvr-underline-from-left"
-                    onClick={() => setToggleMenu(false)}
+                    className={
+                      selectedItem === item
+                        ? `border-4 border-transparent border-b-[#ad5389] cursor-pointer mx-4`
+                        : `mx-4 cursor-pointer hvr-underline-from-left`
+                    }
+                    onClick={() => {setToggleMenu(false);setSelectedItem(item)}}
                   >
                     {item}
                   </li>

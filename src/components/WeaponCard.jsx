@@ -33,9 +33,12 @@ export const WeaponCard = ({
     handleWeaponIdleTime,
   } = useContext(TransactionContext);
 
-  const dateTimestamp = new Date(
-    new Date(timestamp).getTime()
-  ).toLocaleString();
+  const checkTimePassed = ()=>{
+
+    let time_passed = (Date.now() - new Date(timestamp).getTime())
+    time_passed = Math.floor((time_passed / (1000 * 60 * 60)).toFixed(6))
+    return ((time_passed / 24 + 1) * 3)
+  }
 
   const handleTraining = (index) => {
     const weaponAfterTraining = {
@@ -69,9 +72,7 @@ export const WeaponCard = ({
         weapon_url: url,
         weapon_for_sale: !forSale,
       };
-      setIsLoading(true);
       await handleWeaponForSale(weaponForSale);
-      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -113,6 +114,16 @@ export const WeaponCard = ({
           <span className="font-bold flex mb-1">
             Last Modified:  <p className="px-2 font-semibold">{training.idle_time} Hours </p>
           </span>
+          { checkTimePassed() > countTraining ? 
+            
+            (<span className="font-bold flex mb-1">
+            Training Per Day:  <p className="px-2 font-semibold">{countTraining}</p>
+           </span>)
+           :
+           (<span className="font-bold flex mb-1">
+           Training Per Day Limit Reached
+          </span>)
+           }
           {Object.keys(dictTraining).map((item, index) => (
             <Button
               key={index}
@@ -123,6 +134,7 @@ export const WeaponCard = ({
             />
           ))}
         </div>
+
       </div>
       <StyledButton
         text={forSale ? "Remove From Sale" : "Sell Weapon"}
