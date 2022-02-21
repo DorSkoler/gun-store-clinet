@@ -34,6 +34,7 @@ function Weapons() {
           training={weapon.weapon_training}
           sale={weapon.weapon_for_sale}
           lastModified={weapon.last_modified}
+          countTraining={weapon.count_training}
           />
         ))}
       </div>

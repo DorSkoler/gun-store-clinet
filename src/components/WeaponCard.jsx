@@ -22,10 +22,10 @@ export const WeaponCard = ({
   timestamp,
   sale,
   lastModified,
+  countTraining,
 }) => {
   const [forSale, setForSale] = useState(sale);
   const [toggle, setToggle] = useState(Date.now());
-  const [countTraining, setCountTraining] = useState(localStorage.getItem('countTraining'));
   const {
     currentAccount,
     handleTrainingPrice,
@@ -55,8 +55,6 @@ export const WeaponCard = ({
       account_metamask_address: currentAccount,
     };
     handleTrainingPrice(weaponAfterTraining);
-    setCountTraining(countTraining+1);
-    window.localStorage.setItem('countTraining', countTraining+1)
   };
 
   const handleForSale = async () => {
@@ -114,10 +112,10 @@ export const WeaponCard = ({
           <span className="font-bold flex mb-1">
             Last Modified:  <p className="px-2 font-semibold">{training.idle_time} Hours </p>
           </span>
-          { checkTimePassed() > countTraining ? 
+          { countTraining < 3? 
             
             (<span className="font-bold flex mb-1">
-            Training Per Day:  <p className="px-2 font-semibold">{countTraining}</p>
+            Training Per Day:  <p className="px-2 font-semibold">{3 - countTraining}</p>
            </span>)
            :
            (<span className="font-bold flex mb-1">
