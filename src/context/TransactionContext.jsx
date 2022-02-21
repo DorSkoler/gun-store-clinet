@@ -149,7 +149,7 @@ export const TransactionProvider = ({ children }) => {
     }
   }
 
-
+  //async function to be called when a user buying a new weapon from the store
   const handleNewTransaction = async (userWeapon) => {
     try {
       if (ethereum) {
@@ -195,7 +195,7 @@ export const TransactionProvider = ({ children }) => {
           userWeapon.url,
           lastWeaponAdded.data[0]._id,
         );
-
+        //wait for the transasction to be finished.
         await tsHash.wait()
 
       }
@@ -204,6 +204,7 @@ export const TransactionProvider = ({ children }) => {
       }
 
     } catch (error) {
+      //getting the new weapon that just got added to the database in the 'try' section.
       const last = await axios.get(`${addressRoute}/getLastWeapon`)
       //delete the weapon from database incase of an error in the transaction.
       await axios.post(`${addressRoute}/delete`, { _id: last.data[0]._id })
@@ -211,15 +212,19 @@ export const TransactionProvider = ({ children }) => {
       throw new Error("No Eth Object");
     }
   };
-
+  
+  //async function to be called when the user is loggin in to his account so he can view his weapons
   const getAccountWeapons = async () => {
     try {
+      //api call to all account weapons from his metamask account address
       const res = await axios.post(`${addressRoute}/byMetamask`, { account_metamask_address: currentAccount })
+      //setting the account weapons array
       setAccountWeapons(res.data)
     } catch (error) {
       console.log(error);
     }
   }
+  //async function to be called when the user is in the 'for sale' page so we can view him all the weapons that is for sale.
   const getWeaponsForSale = async () => {
     try {
       const res = await axios.get(`${addressRoute}/getWeaponsForSale`)
@@ -228,6 +233,7 @@ export const TransactionProvider = ({ children }) => {
       console.log(error);
     }
   }
+  //async function to be called when the user is buying a weapon from other user in the 'for sale' page.
   const handleNewTransactionFromSale = async (weapon) => {
     try {
       if (!ethereum) return alert("Please connect to MetaMask.");
@@ -249,6 +255,7 @@ export const TransactionProvider = ({ children }) => {
           },
         ],
       });
+
       const tsHash = await tsxContract.addToBlockchain(
         weapon.account_metamask_address,
         ethers.utils.parseEther(String(weapon.weapon_price))._hex,
@@ -258,7 +265,7 @@ export const TransactionProvider = ({ children }) => {
         weapon._id
       );
       await tsHash.wait()
-
+      //updating the account address to the user who bought the weapon.
       await axios.post(`${addressRoute}/updateAddress`, { account_metamask_address: currentAccount, _id: weapon._id })
 
     } catch (error) {
@@ -273,6 +280,7 @@ export const TransactionProvider = ({ children }) => {
   }, [currentAccount]);
 
   return (
+    //moving all the necessery states and functions to other components
     <TransactionContext.Provider
       value={{
         connectWallet,

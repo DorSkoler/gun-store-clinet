@@ -20,34 +20,6 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  /* background-color:#4b7b95;
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%); */
-}
-
-.gradient-bg-services {
-  background: transparent;
-  /* background-color:#0f0e13;
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-    radial-gradient(at 50% 100%, hsla(225,39%,25%,1) 0, transparent 50%); */
-}
-
-.gradient-bg-transactions {
-  background-color: #4b7b95;
-  /* background-image: 
-    radial-gradient(at 0% 100%, hsla(253,16%,7%,1) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, hsla(225,39%,25%,1) 0, transparent 50%); */
-}
-
-
-.gradient-bg-footer {
-  background-color: #0f0e13;
-  background-image: 
-    radial-gradient(at 0% 100%, hsla(253,16%,7%,1) 0, transparent 53%), 
-    radial-gradient(at 50% 150%, hsla(339,49%,30%,1) 0, transparent 50%);
 }
 
 .blue-glassmorphism {
@@ -59,7 +31,6 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-/* white glassmorphism */
 .white-glassmorphism {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
@@ -71,7 +42,7 @@ body {
 .eth-card {
     border-radius: 25px;
     background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(30px);  /* This will produce the blur */
+    backdrop-filter: blur(30px); 
     border: 2px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 80px rgba(0, 0, 0, 0.2);
     overflow: hidden;

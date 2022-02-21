@@ -1,8 +1,8 @@
 import React,{useState,useContext,useEffect} from 'react'
 import { TransactionContext } from '../context/TransactionContext';
-import { weaponsSideBarData } from '../weapons/weaponsNavBarData';
 import { WeaponCardForSale } from '../components/WeaponCardForSale';
 import SideBar from '../components/SideBar'
+
 function ForSale() {
   const {currentAccount,weaponsForSale,getWeaponsForSale} = useContext(TransactionContext)
 
