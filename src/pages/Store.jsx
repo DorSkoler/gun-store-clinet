@@ -29,6 +29,7 @@ function Store() {
               price={weapon.price}
               url={weapon.img}
               type={weapon.type}
+              desc={weapon.desc}
             />
           ))}
        </div>) 

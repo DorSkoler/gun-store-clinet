@@ -5,7 +5,7 @@ import StyledButton from "./StyledButton";
 
 
 
-export const WeaponCardStore = ({price,weapon,url,type}) => {
+export const WeaponCardStore = ({price,weapon,url,type,desc}) => {
 
   const {handleNewTransaction} = useContext(TransactionContext)
   const [isLoading,setIsLoading] = useState(false)
@@ -41,7 +41,7 @@ export const WeaponCardStore = ({price,weapon,url,type}) => {
   <div className="px-6 py-4">
     <div className="font-bold text-xl mb-2">{weapon}</div>
     <p className="text-base">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
+      {desc}
     </p>
   </div>
 
