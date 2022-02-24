@@ -3,7 +3,7 @@ import { FaEthereum } from "react-icons/fa";
 import { Button } from "./Button";
 import { TransactionContext } from "../context/TransactionContext";
 import { StyledButton } from './StyledButton'
-
+import {VscTriangleDown,VscTriangleUp} from 'react-icons/vsc'
 
 const dictTraining = {
   shooting_range: "Shooting Range",
@@ -26,19 +26,14 @@ export const WeaponCard = ({
 }) => {
   const [forSale, setForSale] = useState(sale);
   const [toggle, setToggle] = useState(Date.now());
+
+
   const {
     currentAccount,
     handleTrainingPrice,
     handleWeaponForSale,
     handleWeaponIdleTime,
   } = useContext(TransactionContext);
-
-  const checkTimePassed = ()=>{
-
-    let time_passed = (Date.now() - new Date(timestamp).getTime())
-    time_passed = Math.floor((time_passed / (1000 * 60 * 60)).toFixed(6))
-    return ((time_passed / 24 + 1) * 3)
-  }
 
   const handleTraining = (index) => {
     const weaponAfterTraining = {
@@ -54,7 +49,8 @@ export const WeaponCard = ({
       count:countTraining,
       account_metamask_address: currentAccount,
     };
-    handleTrainingPrice(weaponAfterTraining);
+    handleTrainingPrice(weaponAfterTraining)
+   
   };
 
   const handleForSale = async () => {
@@ -81,6 +77,7 @@ export const WeaponCard = ({
   useEffect(() => {
     let handle = setTimeout(() => setToggle((prevToggle) => !prevToggle), 5000);
     return () => {
+
       handleWeaponIdleTime({
         _id: id,
         last_modified: lastModified,
@@ -107,8 +104,31 @@ export const WeaponCard = ({
             {price}
             <FaEthereum className="mt-1 ml-1 text-pink-500" fontSize={20} />
           </p>
+          <p className="flex">
+            {/* {updatedPrice > lastModifiedPrice ? 
+            (
+              <span className="flex">
+              {`${Number((updatedPrice-lastModifiedPrice)/100).toFixed(5)}%`}
+            <VscTriangleUp className="mt-1 ml-1 text-green-500" fontSize={20}/>
+            </span>
+            )
+            :
+            (
+              <span className="flex">
+              {`${Number(Math.abs((lastModifiedPrice-updatedPrice)/100)).toFixed(5)}%`}
+              <VscTriangleDown className="mt-1 ml-1 text-red-500" fontSize={20}/>
+              </span>
+            )
+            } */}
+          </p>
         </div>
         <div className="flex flex-col justify-center items-center w-full text-[13px]">
+        {/* <span className="font-bold flex mb-1">
+            updated:  <p className="px-2 font-semibold">{updatedPrice}</p>
+          </span>
+          <span className="font-bold flex mb-1">
+            current:  <p className="px-2 font-semibold">{lastModifiedPrice}</p>
+          </span> */}
           <span className="font-bold flex mb-1">
             Last Modified:  <p className="px-2 font-semibold">{training.idle_time} Hours </p>
           </span>

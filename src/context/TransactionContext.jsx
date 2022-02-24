@@ -126,30 +126,36 @@ export const TransactionProvider = ({ children }) => {
     } catch (error) {
     }
   }
-
+  
+  //async function for calculating the new price after idle time passed.
   const handleWeaponIdleTime = async (weapon) => {
     try {
+      //time passed since the last action for the weapon
       let idle_time = (Date.now() - new Date(weapon.last_modified).getTime())
       idle_time = Math.floor((idle_time / (1000 * 60 * 60)).toFixed(6))
       
+      //if 24 hours has passed we reset the idle time and the training so user can train his weapon after one day.
       if (weapon.weapon_training["idle_time"] === 24) {
         weapon.weapon_training["idle_time"] = 0
         weapon.count = 0
         weapon.last_modified = Date.now()
         await axios.post(`${addressRoute}/idlePrice`, { _id: weapon._id,  weapon_training: weapon.weapon_training, weapon_price: weapon.weapon_price, last_modified:weapon.last_modified, count_training:weapon.count })
-        return
+        return 
       }
-      if (weapon.weapon_training["idle_time"] === idle_time) return
+      //if it is the same time passed we do not need to update anything.
+      if (weapon.weapon_training["idle_time"] === idle_time) return 
+      //
       else {
         weapon.weapon_training["idle_time"] = idle_time
         let newPrice = weapon.weapon_price - idle_time * trainingPrices[weapon.weapon_type]["idle"]
         newPrice = newPrice.toFixed(6)
         if (newPrice <= 0) {
           await axios.post(`${addressRoute}/delete`, { _id: weapon._id })
-          return
+          return 
         }
         await axios.post(`${addressRoute}/idlePrice`, { _id: weapon._id,  weapon_training: weapon.weapon_training, weapon_price: newPrice, last_modified:weapon.last_modified, count_training:weapon.count })
       }
+
     } catch (error) {
       console.log(error);
     }
