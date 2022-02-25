@@ -82,11 +82,11 @@ export const WeaponCard = ({
   }
 
   const viewPrice=()=>{
-    var price_str = String(price)
+    var price_str = String(price.toFixed(6))
     while(price_str[price_str.length-1] === '0'){
       price_str = price_str.slice(0,price_str.length-1)
     }
-    return Number(price_str).toFixed(5)
+    return Number(price_str)
   }
 
   return (
@@ -94,7 +94,7 @@ export const WeaponCard = ({
       <img
         className="w-full h-48 rounded blue-glassmorphism"
         src={url}
-        alt="Sunset in the mountains"
+        alt="weapon"
       />
 
       <div className="px-6 py-4">

@@ -15,6 +15,11 @@ export const TransactionCard = ({
   url,
   type,
 }) => {
+
+  const address_from = addressFrom === '0x4aF7c85FC637aFD8E6e17903e165667343136ce7' ? 'Gun Store' : shortAddress(addressFrom)
+  const address_to = addressTo === '0x4aF7c85FC637aFD8E6e17903e165667343136ce7' ? 'Gun Store' : shortAddress(addressTo)
+
+
   return (
  
     <div className="max-w-sm rounded blue-glassmorphism overflow-hidden shadow-lg m-7 text-white">
@@ -33,24 +38,24 @@ export const TransactionCard = ({
           </p>
         </div>
         <div className="flex flex-col w-full text-md">
-          <span className="font-bold flex mb-1">
-            Weapon Type: <p className="font-semibold">{type} </p>
+          <span className="font-bold flex mb-1 text-pink-500">
+            Weapon Type: <p className="font-semibold text-white">&nbsp;{type} </p>
           </span>
           <a
-            className="font-bold flex mb-1"
+            className="font-bold flex mb-1 text-pink-500"
             href={`https://ropsten.etherscan.io/address/${addressFrom}`}
             target="_blank"
             rel="noreferrer"
           >
-            From: <p className="font-semibold">{shortAddress(addressFrom)} </p>
+            From: <p className="font-semibold text-white">&nbsp;{address_from} </p>
           </a>
           <a
-            className="font-bold flex mb-1"
+            className="font-bold flex mb-1 text-pink-500"
             href={`https://ropsten.etherscan.io/address/${addressTo}`}
             target="_blank"
             rel="noreferrer"
           >
-            To: <p className="font-semibold">{shortAddress(addressTo)}</p>
+            To: <p className="font-semibold text-white">&nbsp;{address_to}</p>
           </a>
         </div>
       </div>

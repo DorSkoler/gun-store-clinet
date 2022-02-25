@@ -5,7 +5,7 @@ import SideBar from '../components/SideBar'
 
 function ForSale() {
   const [toggle, setToggle] = useState(Date.now());
-  const [selectedWeaponType,setSelectedWeaponType] = useState("Cold")
+  const [selectedWeaponType,setSelectedWeaponType] = useState("All")
   const {currentAccount,weaponsForSale,handleWeaponIdleTime,getWeaponsForSale} = useContext(TransactionContext)
 
   const handleSelectedWeaponType = (weapon) => {
@@ -37,7 +37,8 @@ function ForSale() {
        <SideBar handleChange={handleSelectedWeaponType} selected={selectedWeaponType}/>
       </div>
       {currentAccount ? (<div className="flex flex-wrap justify-center items-center mt-10">
-        {weaponsForSale.filter(data => data.weapon_type === selectedWeaponType && data.account_metamask_address !== currentAccount).map((weapon, index) => (
+        {selectedWeaponType === "All" ?
+         (weaponsForSale.filter(data=> data.account_metamask_address!==currentAccount).map((weapon,index)=>(
           <WeaponCardForSale
           timestamp={weapon.timestamp}
           key={index}
@@ -49,7 +50,21 @@ function ForSale() {
           type={weapon.weapon_type}
           training={weapon.weapon_training}
           />
-        ))}
+         )))
+         :
+         (weaponsForSale.filter(data => data.weapon_type === selectedWeaponType && data.account_metamask_address !== currentAccount).map((weapon, index) => (
+          <WeaponCardForSale
+          timestamp={weapon.timestamp}
+          key={index}
+          id={weapon._id}
+          owner={weapon.account_metamask_address}
+          weapon={weapon.weapon_name}
+          price={weapon.weapon_price}
+          url={weapon.weapon_url}
+          type={weapon.weapon_type}
+          training={weapon.weapon_training}
+          />
+        )))}
       </div>) : (<div className="flex justify-center items-center flex-col text-white">
               <h1 className="py-12 px-8 font-semibold">
               Login to Metamask to view our weapons.

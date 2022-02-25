@@ -7,7 +7,7 @@ import { TransactionContext } from "../context/TransactionContext";
 
 function Store() {
   const {currentAccount} = useContext(TransactionContext)
-  const [selectedWeaponType, setSelectedWeaponType] = useState("Cold");
+  const [selectedWeaponType, setSelectedWeaponType] = useState("All");
 
   const handleSelectedWeaponType = (weapon) => {
     setSelectedWeaponType(weapon);
@@ -20,7 +20,19 @@ function Store() {
       </div>
       { currentAccount ? 
       (<div className="flex flex-wrap justify-center items-center mt-10">
-        {weaponsData
+        {selectedWeaponType==="All" ?
+         (weaponsData.map((weapon)=>(
+          <WeaponCardStore
+          key={weapon.id}
+          weapon={weapon.name}
+          price={weapon.price}
+          url={weapon.img}
+          type={weapon.type}
+          desc={weapon.desc}
+        />
+         )))
+         :
+         (weaponsData
           .filter((data) => data.type === selectedWeaponType)
           .map((weapon) => (
             <WeaponCardStore
@@ -31,7 +43,8 @@ function Store() {
               type={weapon.type}
               desc={weapon.desc}
             />
-          ))}
+          )))
+         }
        </div>) 
       :
        (<div className="flex justify-center items-center flex-col text-white">
