@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaEthereum } from "react-icons/fa";
 import { Button } from "./Button";
 import { TransactionContext } from "../context/TransactionContext";
@@ -31,7 +31,6 @@ export const WeaponCard = ({
     currentAccount,
     handleTrainingPrice,
     handleWeaponForSale,
-    handleWeaponIdleTime,
   } = useContext(TransactionContext);
 
   const handleTraining = (index) => {
@@ -82,6 +81,13 @@ export const WeaponCard = ({
     return percentage
   }
 
+  const viewPrice=()=>{
+    var price_str = String(price)
+    while(price_str[price_str.length-1] === '0'){
+      price_str = price_str.slice(0,price_str.length-1)
+    }
+    return Number(price_str).toFixed(5)
+  }
 
   return (
     <div className="max-w-sm rounded blue-glassmorphism overflow-hidden shadow-lg m-7 text-white">
@@ -95,7 +101,7 @@ export const WeaponCard = ({
         <div className="flex justify-between font-bold text-xl mb-2">
           {weapon}
           <p className="flex">
-            {price}
+            {viewPrice()}
             <FaEthereum className="mt-1 ml-1 text-pink-500" fontSize={20} />
           </p>
         </div>

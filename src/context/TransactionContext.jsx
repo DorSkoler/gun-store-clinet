@@ -4,8 +4,8 @@ import axios from "axios";
 import { contractABI, contractAddressABI, gunStoreAddress } from "../utils_contract/details";
 import trainingPrices from '../weapons/trainingPrices'
 
-const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
-// const addressRoute = "http://localhost:4000/weapons"
+// const addressRoute = "https://gun-store-blockchain.herokuapp.com/weapons"
+const addressRoute = "http://localhost:4000/weapons"
 
 export const TransactionContext = React.createContext();
 
@@ -112,8 +112,13 @@ export const TransactionProvider = ({ children }) => {
       idle_time = Math.floor((idle_time / (1000 * 60 * 60)).toFixed(6))
 
       if ((idle_time / 24 + 1) * 3 > weapon.count) {
-        let newPrice = weapon.weapon_price + trainingPrices[weapon.weapon_type][weapon.training_index]
-        newPrice = newPrice.toFixed(5)
+        const min_range = trainingPrices[weapon.weapon_type][weapon.training_index]["min_range"]
+        const max_range = trainingPrices[weapon.weapon_type][weapon.training_index]["max_range"]
+        const fee = trainingPrices[weapon.weapon_type][weapon.training_index]["fee"]
+        const range = (min_range +( (max_range-min_range)*Math.random())).toFixed(2)
+        console.log(range);
+        //calculating new price with the corresponding training percentage with the relative fee for the price of the weapon
+        let newPrice = weapon.weapon_price + weapon.weapon_price * range - weapon.weapon_price*fee
         weapon.weapon_training["idle_time"] = 0
         weapon.weapon_training[weapon.training_index]++
         weapon.count++
@@ -148,7 +153,6 @@ export const TransactionProvider = ({ children }) => {
       else {
         weapon.weapon_training["idle_time"] = idle_time
         let newPrice = weapon.weapon_price - idle_time * trainingPrices[weapon.weapon_type]["idle"]
-        newPrice = newPrice.toFixed(6)
         if (newPrice <= 0) {
           await axios.post(`${addressRoute}/delete`, { _id: weapon._id })
           return 

@@ -28,6 +28,7 @@ export const WeaponCardForSale = ({
         weapon_url: url,
         weapon_type: type,
         weapon_name: weapon,
+        weapon_training:training
       };
       setIsLoading(true);
       await handleNewTransactionFromSale(weaponTransaction);
