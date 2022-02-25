@@ -4,15 +4,33 @@ import { WeaponCardForSale } from '../components/WeaponCardForSale';
 import SideBar from '../components/SideBar'
 
 function ForSale() {
-  const {currentAccount,weaponsForSale,getWeaponsForSale} = useContext(TransactionContext)
-
+  const [toggle, setToggle] = useState(Date.now());
   const [selectedWeaponType,setSelectedWeaponType] = useState("Cold")
+  const {currentAccount,weaponsForSale,handleWeaponIdleTime,getWeaponsForSale} = useContext(TransactionContext)
+
   const handleSelectedWeaponType = (weapon) => {
     setSelectedWeaponType(weapon);
   }
   useEffect(() => {
    getWeaponsForSale();
   }, [weaponsForSale]);
+
+  useEffect(() => {
+    let handle = setTimeout(() => setToggle((prevToggle) => !prevToggle), 5000);
+    return () => {
+      weaponsForSale.map(weapon => {
+        handleWeaponIdleTime({
+          _id: weapon._id,
+          last_modified: weapon.last_modified,
+          weapon_training: weapon.weapon_training,
+          weapon_price: weapon.weapon_price,
+          weapon_type: weapon.weapon_type,
+        })
+        clearTimeout(handle)
+      })
+    };
+  }, [toggle]);
+
   return (
     <div className="flex md:flex-row flex-col justify-center gradient-bg-welcome">
        <div className="text-white py-12 px-8">

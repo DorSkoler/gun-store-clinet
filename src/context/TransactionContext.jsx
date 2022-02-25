@@ -279,6 +279,8 @@ export const TransactionProvider = ({ children }) => {
       await tsHash.wait()
       //updating the account address to the user who bought the weapon.
       await axios.post(`${addressRoute}/updateAddress`, { account_metamask_address: currentAccount, _id: weapon._id })
+      weapon.weapon_training["idle_time"] = 0
+      await axios.post(`${addressRoute}/updateCount`, { _id: weapon._id,  weapon_training: weapon.weapon_training, last_modified:Date.now(), count_training:0 })
 
     } catch (error) {
       console.log(error);
