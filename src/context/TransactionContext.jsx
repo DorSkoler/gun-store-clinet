@@ -122,11 +122,9 @@ export const TransactionProvider = ({ children }) => {
         weapon.weapon_training[weapon.training_index]++
         await axios.post(`${addressRoute}/updatePrice`, { _id: weapon._id, weapon_price: newPrice, weapon_training: weapon.weapon_training, last_modified: Date.now(),count_training:weapon.count + 1, old_price:weapon.weapon_price })
       }
-      else {
-        console.log("can not add more training");
-      }
       
     } catch (error) {
+      console.log(error);
     }
   }
   
