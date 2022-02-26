@@ -32,7 +32,7 @@ const SideBar = ({selected,setSelectedWeaponType,weapons,setFiltered,forSale}) =
       }
       const filtered = weapons.filter((weapon)=>weapon.weapon_type===selected)
       setFiltered(filtered)
-  },[selected])
+  },[selected, weapons])
 
   return (
     <div className="flex flex-col items-center w-full md:w-60 text-white bg-transparent rounded">
