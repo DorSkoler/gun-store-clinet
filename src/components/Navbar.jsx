@@ -87,7 +87,7 @@ const Navbar = () => {
             </li>
             {["Transactions", "Weapons", "For Sale", "Store"].map(
               (item, index) => (
-                <Link to={`/${item.split(" ").join("")}`} key={index}>
+                <Link style={{marginLeft:"30px",background:"white"}} to={`/${item.split(" ").join("")}`} key={index}>
                   <li
                     className={
                       selectedItem === item

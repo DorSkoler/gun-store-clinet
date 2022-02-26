@@ -115,7 +115,7 @@ export const TransactionProvider = ({ children }) => {
         const min_range = trainingPrices[weapon.weapon_type][weapon.training_index]["min_range"]
         const max_range = trainingPrices[weapon.weapon_type][weapon.training_index]["max_range"]
         const fee = trainingPrices[weapon.weapon_type][weapon.training_index]["fee"]
-        const range = (min_range +( (max_range-min_range)*Math.random())).toFixed(2)
+        const range = (min_range +( (max_range-min_range)*Math.random())).toFixed(3)
         //calculating new price with the corresponding training percentage with the relative fee for the price of the weapon
         let newPrice = weapon.weapon_price + weapon.weapon_price * range - weapon.weapon_price*fee
         weapon.weapon_training["idle_time"] = 0

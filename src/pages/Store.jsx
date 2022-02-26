@@ -12,7 +12,6 @@ function Store() {
 
   return (
     <motion.div
-      layout
       className="flex md:flex-row flex-col w-full justify-center gradient-bg-welcome"
     >
       <div className="text-white py-12 px-8">
