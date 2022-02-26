@@ -4,7 +4,7 @@ import { Button } from "./Button";
 import { TransactionContext } from "../context/TransactionContext";
 import { StyledButton } from './StyledButton'
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc'
-
+import { motion } from "framer-motion";
 const dictTraining = {
   shooting_range: "Shooting Range",
   basic_training: "Basic Training",
@@ -90,7 +90,7 @@ export const WeaponCard = ({
   }
 
   return (
-    <div className="max-w-sm rounded blue-glassmorphism overflow-hidden shadow-lg m-7 text-white">
+    <motion.div animate={{opacity: 1,scale:1}} initial={{opacity: 0,scale:0}} exit={{opacity:0,scale:0}} layout className="max-w-sm rounded blue-glassmorphism overflow-hidden shadow-lg m-7 text-white">
       <img
         className="w-full h-48 rounded blue-glassmorphism"
         src={url}
@@ -145,6 +145,6 @@ export const WeaponCard = ({
         text={forSale ? "Remove From Sale" : "Sell Weapon"}
         onClick={handleForSale}
       />
-    </div>
+    </motion.div>
   );
 };
