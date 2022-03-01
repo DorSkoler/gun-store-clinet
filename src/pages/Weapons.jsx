@@ -6,7 +6,8 @@ import SideBar from "../components/SideBar";
 
 function Weapons() {
   const [selectedWeaponType, setSelectedWeaponType] = useState("Cold");
-  const { accountWeapons,getAccountWeapons } = useContext(TransactionContext);
+  const { accountWeapons,getAccountWeapons,handleWeaponIdleTime } = useContext(TransactionContext);
+  const [toggle, setToggle] = useState(Date.now());
   const handleSelectedWeaponType = (weapon) => {
     setSelectedWeaponType(weapon);
   };
@@ -15,6 +16,22 @@ function Weapons() {
   useEffect(() => {
    getAccountWeapons();
   }, [accountWeapons]);
+
+  useEffect(() => {
+    let handle = setTimeout(() => setToggle((prevToggle) => !prevToggle), 5000);
+    return () => {
+      accountWeapons.map(weapon => {
+        handleWeaponIdleTime({
+          _id: weapon._id,
+          last_modified: weapon.last_modified,
+          weapon_training: weapon.weapon_training,
+          weapon_price: weapon.weapon_price,
+          weapon_type: weapon.weapon_type,
+        })
+        clearTimeout(handle)
+      })
+    };
+  }, [toggle]);
 
   return (
     <div className="flex md:flex-row flex-col justify-center">
@@ -35,6 +52,7 @@ function Weapons() {
           sale={weapon.weapon_for_sale}
           lastModified={weapon.last_modified}
           countTraining={weapon.count_training}
+          oldPrice={weapon.old_price}
           />
         ))}
       </div>

@@ -3,7 +3,7 @@ import { FaEthereum } from "react-icons/fa";
 import { Button } from "./Button";
 import { TransactionContext } from "../context/TransactionContext";
 import { StyledButton } from './StyledButton'
-import {VscTriangleDown,VscTriangleUp} from 'react-icons/vsc'
+import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc'
 
 const dictTraining = {
   shooting_range: "Shooting Range",
@@ -23,10 +23,9 @@ export const WeaponCard = ({
   sale,
   lastModified,
   countTraining,
+  oldPrice,
 }) => {
   const [forSale, setForSale] = useState(sale);
-  const [toggle, setToggle] = useState(Date.now());
-
 
   const {
     currentAccount,
@@ -46,11 +45,11 @@ export const WeaponCard = ({
       weapon_training: training,
       training_index: index,
       last_modified: lastModified,
-      count:countTraining,
+      count: countTraining,
       account_metamask_address: currentAccount,
     };
     handleTrainingPrice(weaponAfterTraining)
-   
+
   };
 
   const handleForSale = async () => {
@@ -72,23 +71,18 @@ export const WeaponCard = ({
     }
   };
 
+  const calcPercentage = () => {
+    let percentage = (price - oldPrice) / oldPrice * 100
+    if (Number.isInteger(percentage)) {
+      return percentage
+    }
+    percentage = percentage.toFixed(2)
+    const numnString = percentage.toString()
+    if (numnString.includes(".00")) return Number(percentage)
+    return percentage
+  }
 
 
-  useEffect(() => {
-    let handle = setTimeout(() => setToggle((prevToggle) => !prevToggle), 5000);
-    return () => {
-
-      handleWeaponIdleTime({
-        _id: id,
-        last_modified: lastModified,
-        weapon_training: training,
-        weapon_price: price,
-        weapon_type: type,
-      })
-      clearTimeout(handle)
-    };
-  }, [toggle]);
-  
   return (
     <div className="max-w-sm rounded blue-glassmorphism overflow-hidden shadow-lg m-7 text-white">
       <img
@@ -104,44 +98,31 @@ export const WeaponCard = ({
             {price}
             <FaEthereum className="mt-1 ml-1 text-pink-500" fontSize={20} />
           </p>
-          <p className="flex">
-            {/* {updatedPrice > lastModifiedPrice ? 
-            (
-              <span className="flex">
-              {`${Number((updatedPrice-lastModifiedPrice)/100).toFixed(5)}%`}
-            <VscTriangleUp className="mt-1 ml-1 text-green-500" fontSize={20}/>
-            </span>
-            )
-            :
-            (
-              <span className="flex">
-              {`${Number(Math.abs((lastModifiedPrice-updatedPrice)/100)).toFixed(5)}%`}
-              <VscTriangleDown className="mt-1 ml-1 text-red-500" fontSize={20}/>
-              </span>
-            )
-            } */}
-          </p>
         </div>
         <div className="flex flex-col justify-center items-center w-full text-[13px]">
-        {/* <span className="font-bold flex mb-1">
-            updated:  <p className="px-2 font-semibold">{updatedPrice}</p>
-          </span>
-          <span className="font-bold flex mb-1">
-            current:  <p className="px-2 font-semibold">{lastModifiedPrice}</p>
-          </span> */}
+          <p className="flex text-[18px] mb-1 font-semibold">
+            {price > oldPrice && (<span className="flex text-green-500">
+                  {`${calcPercentage()}%`}
+                  <VscTriangleUp className="mt-1 ml-1 text-green-500" fontSize={22} />
+                </span>) }
+                {price < oldPrice && (<span className="flex text-red-500">
+                  {`${calcPercentage()}%`}
+                  <VscTriangleDown className="mt-1 ml-1 text-red-500" fontSize={22} />
+                </span>)}
+          </p>
           <span className="font-bold flex mb-1">
             Last Modified:  <p className="px-2 font-semibold">{training.idle_time} Hours </p>
           </span>
-          { countTraining < 3? 
-            
+          {countTraining < 3 ?
+
             (<span className="font-bold flex mb-1">
-            Training Per Day:  <p className="px-2 font-semibold">{3 - countTraining}</p>
-           </span>)
-           :
-           (<span className="font-bold flex mb-1">
-           Training Per Day Limit Reached
-          </span>)
-           }
+              Training Per Day:  <p className="px-2 font-semibold">{3 - countTraining}</p>
+            </span>)
+            :
+            (<span className="font-bold flex mb-1">
+              Training Per Day Limit Reached
+            </span>)
+          }
           {Object.keys(dictTraining).map((item, index) => (
             <Button
               key={index}

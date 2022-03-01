@@ -112,12 +112,12 @@ export const TransactionProvider = ({ children }) => {
       idle_time = Math.floor((idle_time / (1000 * 60 * 60)).toFixed(6))
 
       if ((idle_time / 24 + 1) * 3 > weapon.count) {
-        let newPrice = Number(weapon.weapon_price) + Number(trainingPrices[weapon.weapon_type][weapon.training_index])
+        let newPrice = weapon.weapon_price + trainingPrices[weapon.weapon_type][weapon.training_index]
         newPrice = newPrice.toFixed(5)
         weapon.weapon_training["idle_time"] = 0
         weapon.weapon_training[weapon.training_index]++
         weapon.count++
-        await axios.post(`${addressRoute}/updatePrice`, { _id: weapon._id, weapon_price: newPrice, weapon_training: weapon.weapon_training, last_modified: Date.now(),count_training:weapon.count })
+        await axios.post(`${addressRoute}/updatePrice`, { _id: weapon._id, weapon_price: newPrice, weapon_training: weapon.weapon_training, last_modified: Date.now(),count_training:weapon.count, old_price:weapon.weapon_price })
       }
       else {
         console.log("can not add more training");
@@ -139,7 +139,7 @@ export const TransactionProvider = ({ children }) => {
         weapon.weapon_training["idle_time"] = 0
         weapon.count = 0
         weapon.last_modified = Date.now()
-        await axios.post(`${addressRoute}/idlePrice`, { _id: weapon._id,  weapon_training: weapon.weapon_training, weapon_price: weapon.weapon_price, last_modified:weapon.last_modified, count_training:weapon.count })
+        await axios.post(`${addressRoute}/updateCount`, { _id: weapon._id,  weapon_training: weapon.weapon_training, last_modified:weapon.last_modified, count_training:weapon.count })
         return 
       }
       //if it is the same time passed we do not need to update anything.
@@ -153,7 +153,7 @@ export const TransactionProvider = ({ children }) => {
           await axios.post(`${addressRoute}/delete`, { _id: weapon._id })
           return 
         }
-        await axios.post(`${addressRoute}/idlePrice`, { _id: weapon._id,  weapon_training: weapon.weapon_training, weapon_price: newPrice, last_modified:weapon.last_modified, count_training:weapon.count })
+        await axios.post(`${addressRoute}/idlePrice`, { _id: weapon._id,  weapon_training: weapon.weapon_training, weapon_price: newPrice, count_training:weapon.count, old_price:weapon.weapon_price })
       }
 
     } catch (error) {
