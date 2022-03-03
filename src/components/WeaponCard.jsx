@@ -99,11 +99,16 @@ export const WeaponCard = ({
 
       <div className="px-6 py-4">
         <div className="flex justify-between font-bold text-xl mb-2">
+          <div className="px-2">
           {weapon}
+          </div>
+          <div>
           <p className="flex">
             {viewPrice()}
             <FaEthereum className="mt-1 ml-1 text-pink-500" fontSize={20} />
           </p>
+
+          </div>
         </div>
         <div className="flex flex-col justify-center items-center w-full text-[13px]">
           <p className="flex text-[18px] mb-1 font-semibold">

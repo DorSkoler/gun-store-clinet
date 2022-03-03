@@ -24,14 +24,13 @@ const Navbar = () => {
       </div>
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
         {["Transactions", "Weapons", "For Sale", "Store"].map((item, index) => (
-          <Link to={`/${item.split(" ").join("")}`} key={index}>
+          <Link style={{background:"",marginLeft:"10px"}} onClick={()=>setSelectedItem(item)} to={`/${item.split(" ").join("")}`} key={index}>
             <li
               className={
                 selectedItem === item
                   ? `border-4 border-transparent border-b-[#ad5389] cursor-pointer mx-4`
                   : `mx-4 cursor-pointer hvr-underline-from-left`
               }
-              onClick={() => setSelectedItem(item)}
             >
               {item}
             </li>
@@ -87,14 +86,13 @@ const Navbar = () => {
             </li>
             {["Transactions", "Weapons", "For Sale", "Store"].map(
               (item, index) => (
-                <Link style={{marginLeft:"30px",background:"white"}} to={`/${item.split(" ").join("")}`} key={index}>
+                <Link onClick={()=>{setToggleMenu(false); setSelectedItem(item)}} to={`/${item.split(" ").join("")}`} key={index}>
                   <li
                     className={
                       selectedItem === item
                         ? `border-4 border-transparent border-b-[#ad5389] cursor-pointer mx-4`
                         : `mx-4 cursor-pointer hvr-underline-from-left`
                     }
-                    onClick={() => {setToggleMenu(false);setSelectedItem(item)}}
                   >
                     {item}
                   </li>
