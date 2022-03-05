@@ -39,6 +39,14 @@ export const WeaponCardForSale = ({
     }
   };
 
+  const viewPrice=()=>{
+    var price_str = String(price.toFixed(6))
+    while(price_str[price_str.length-1] === '0'){
+      price_str = price_str.slice(0,price_str.length-1)
+    }
+    return Number(price_str)
+  }
+
   useEffect(() => {}, [isLoading]);
   return (
     <motion.div animate={{opacity: 1,scale:1}} initial={{opacity: 0,scale:0}} exit={{opacity:0,scale:0}} layout className="max-w-sm rounded blue-glassmorphism overflow-hidden shadow-lg m-7 text-white">
@@ -76,7 +84,7 @@ export const WeaponCardForSale = ({
         isLoading ? (
           <Loading />
         ) : (
-          <StyledButton text={price} onClick={handlePurchase} />
+          <StyledButton text={viewPrice()} onClick={handlePurchase} />
         )
       }
     </motion.div>

@@ -50,7 +50,7 @@ export const TransactionProvider = ({ children }) => {
           //WEI to ETH 10^18
           amount: parseInt(ts.amount._hex) / (10 ** 18),
           weaponType: ts.weaponType,
-          weaponUrl: ts.weaponUrl
+          weaponUrl: ts.weaponUrl,
 
         }))
         setTransactions(newTsxData)
@@ -127,7 +127,7 @@ export const TransactionProvider = ({ children }) => {
       console.log(error);
     }
   }
-  
+
   //async function for calculating the new price after idle time passed.
   const handleWeaponIdleTime = async (weapon) => {
     try {
@@ -136,7 +136,7 @@ export const TransactionProvider = ({ children }) => {
       idle_time = Math.floor((idle_time / (1000 * 60 * 60)).toFixed(6))
       
       //if 24 hours has passed we reset the idle time and the training so user can train his weapon after one day.
-      if (weapon.weapon_training["idle_time"] === 24) {
+      if (weapon.weapon_training["idle_time"] >= 24) {
         weapon.weapon_training["idle_time"] = 0
         weapon.count = 0
         weapon.last_modified = Date.now()
@@ -208,6 +208,7 @@ export const TransactionProvider = ({ children }) => {
           lastWeaponAdded.data[0]._id,
         );
         //wait for the transasction to be finished.
+        console.log(tsHash.hash);
         await tsHash.wait()
 
       }
@@ -224,7 +225,7 @@ export const TransactionProvider = ({ children }) => {
       throw new Error("No Eth Object");
     }
   };
-  
+
   //async function to be called when the user is loggin in to his account so he can view his weapons
   const getAccountWeapons = async () => {
     try {
@@ -280,7 +281,7 @@ export const TransactionProvider = ({ children }) => {
       //updating the account address to the user who bought the weapon.
       await axios.post(`${addressRoute}/updateAddress`, { account_metamask_address: currentAccount, _id: weapon._id })
       weapon.weapon_training["idle_time"] = 0
-      await axios.post(`${addressRoute}/updateCount`, { _id: weapon._id,  weapon_training: weapon.weapon_training, last_modified:Date.now(), count_training:0 })
+      await axios.post(`${addressRoute}/updateCount`, { _id: weapon._id, weapon_training: weapon.weapon_training, last_modified: Date.now(), count_training: 0 })
 
     } catch (error) {
       console.log(error);

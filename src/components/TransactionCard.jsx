@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaEthereum } from "react-icons/fa";
 import { StyledButton } from "../components/StyledButton";
+import { TransactionContext } from "../context/TransactionContext";
 
 const shortAddress = (address) => {
   return `${address.slice(0, 5)}…${address.slice(address.length - 4)}`;
@@ -15,10 +16,13 @@ export const TransactionCard = ({
   url,
   type,
 }) => {
-
+  const {currentAccount} = useContext(TransactionContext)
   const address_from = addressFrom === '0x4aF7c85FC637aFD8E6e17903e165667343136ce7' ? 'Gun Store' : shortAddress(addressFrom)
   const address_to = addressTo === '0x4aF7c85FC637aFD8E6e17903e165667343136ce7' ? 'Gun Store' : shortAddress(addressTo)
 
+  const handleClick =()=>{
+      window.location.href=`https://ropsten.etherscan.io/address/${currentAccount}`
+  }
 
   return (
  
@@ -59,7 +63,7 @@ export const TransactionCard = ({
           </a>
         </div>
       </div>
-      <StyledButton text={timestamp}/>
+      <StyledButton text={timestamp} onClick={handleClick}/>
     </div>
   );
 };

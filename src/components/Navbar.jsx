@@ -9,7 +9,6 @@ import { FaEthereum } from "react-icons/fa";
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
-  const h = `mx-4 cursor-pointer hvr-underline-from-left`;
   const { currentAccount, connectWallet } = useContext(TransactionContext);
   const shortAddress = `${currentAccount.slice(0, 5)}…${currentAccount.slice(
     currentAccount.length - 4
@@ -18,13 +17,13 @@ const Navbar = () => {
   return (
     <nav className="w-full flex md:justify-center justify-between items-center p-4">
       <div className="md:flex-[0.5] flex-initial justify-center items-center">
-        <Link to="/">
+        <Link to="/Home">
           <img src={logo} alt="logo" className="w-32 cursor-pointer" />
         </Link>
       </div>
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
         {["Transactions", "Weapons", "For Sale", "Store"].map((item, index) => (
-          <Link style={{background:"",marginLeft:"10px"}} onClick={()=>setSelectedItem(item)} to={`/${item.split(" ").join("")}`} key={index}>
+          <Link style={{marginLeft:"10px"}} onClick={()=>setSelectedItem(item)} to={`/${item.split(" ").join("")}`} key={index}>
             <li
               className={
                 selectedItem === item
@@ -84,7 +83,7 @@ const Navbar = () => {
                 onClick={() => setToggleMenu(false)}
               />
             </li>
-            {["Transactions", "Weapons", "For Sale", "Store"].map(
+            {["Home","Transactions", "Weapons", "For Sale", "Store"].map(
               (item, index) => (
                 <Link onClick={()=>{setToggleMenu(false); setSelectedItem(item)}} to={`/${item.split(" ").join("")}`} key={index}>
                   <li
