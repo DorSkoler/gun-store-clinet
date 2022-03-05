@@ -23,6 +23,13 @@ export const TransactionCard = ({
   const handleClick =()=>{
       window.location.href=`https://ropsten.etherscan.io/address/${currentAccount}`
   }
+  const viewPrice=()=>{
+    var price_str = String(amount.toFixed(6))
+    while(price_str[price_str.length-1] === '0'){
+      price_str = price_str.slice(0,price_str.length-1)
+    }
+    return Number(price_str)
+  }
 
   return (
  
@@ -37,7 +44,7 @@ export const TransactionCard = ({
         <div className="flex justify-between font-bold text-xl mb-2">
           {weapon}
           <p className="flex">
-            {amount}
+            {viewPrice()}
             <FaEthereum className="mt-1 ml-1 text-pink-500" fontSize={20} />
           </p>
         </div>

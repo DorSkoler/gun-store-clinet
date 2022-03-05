@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import { TransactionContext } from "../context/TransactionContext";
 import { TransactionCard } from '../components/TransactionCard'
 
 const Transactions = () => {
   const { currentAccount, accountTransactions } = useContext(TransactionContext);
+
+
   return (
     <div className="flex w-full justify-center items-center 2xl:px-20">
       <div className="flex flex-col md:p-12 py-12 px-4">
