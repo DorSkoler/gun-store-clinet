@@ -9,7 +9,7 @@ const App = () => (
     <div className="min-h-screen home">
         <Navbar />
         <Routes>
-        <Route path="/Home" element={<Home/>}/>
+        <Route path="/" element={<Home/>}/>
         <Route path="/transactions" element={<Transactions/>}/>
         <Route path="/store" element={<Store/>}/>
         <Route path="/forsale" element={<ForSale/>}/>

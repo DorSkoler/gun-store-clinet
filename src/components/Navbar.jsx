@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <nav className="w-full flex md:justify-center justify-between items-center p-4">
       <div className="md:flex-[0.5] flex-initial justify-center items-center">
-        <Link to="/Home">
+        <Link to="/">
           <img src={logo} alt="logo" className="w-32 cursor-pointer" />
         </Link>
       </div>
@@ -85,7 +85,7 @@ const Navbar = () => {
             </li>
             {["Home","Transactions", "Weapons", "For Sale", "Store"].map(
               (item, index) => (
-                <Link onClick={()=>{setToggleMenu(false); setSelectedItem(item)}} to={`/${item.split(" ").join("")}`} key={index}>
+                <Link onClick={()=>{setToggleMenu(false); setSelectedItem(item)}} to={item ==="Home" ? '/' : `/${item.split(" ").join("")}`} key={index}>
                   <li
                     className={
                       selectedItem === item
